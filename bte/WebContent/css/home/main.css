@@ -1,0 +1,192 @@
+*{margin:0 auto; padding:0px;}
+body {
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 0px;
+    font-weight: 400;
+    color: #5B5F62;
+	background:#08090B;
+	top: 0px !important; position: static !important; 
+	
+}
+.goog-te-banner-frame {display:none !important}
+.container{
+	background:#fff;
+}
+#header{
+	width:100%;
+	
+}
+.top_head{
+	background:#F4F7FA;
+	height:35px;
+}
+.top_header{
+	display:inline-block;
+	width:100%;
+	margin: 40px 0;
+}
+.brand{
+	float:left;
+}
+.head_contact{
+	float:right;
+}
+.navigation{
+	background:#191E23;
+	display:inline-block;
+	width:100%;
+}
+.navigation ul.navbar {
+    display: inline-block;
+    margin: 0 60px;
+}
+.navigation ul.navbar li{
+	list-style:none;
+	float:left;
+}
+.navigation ul.navbar li a{
+	padding: 27px 30px;
+	display: inline-block;
+	text-decoration: none;
+	color: #FFF;
+	font-size: 15px;
+	line-height:18px;
+}
+.navigation ul.navbar li:hover,.navigation ul.navbar li.active{
+	background:#FF4200;
+}
+.menu_main_wrap .menu_main_nav > li > a::before{
+	   content: attr(title);
+    position: absolute;
+    top: -3.2em;
+}
+.banner{
+	background:#000;
+	display:inline-block;
+	width:100%;
+}
+.strategies,.binary_cnt,.youtube_row{
+	padding:40px 0 10px;
+	display:inline-block;
+	width:100%;
+	text-align:center;
+}
+.strategies{
+	background:#FF4200;
+}
+.strategies img{
+	display:block;
+}
+.strategies a{
+	
+}
+a.btn{
+	clear:both;
+	line-height:18px !important;
+	display:inline-block;
+	background:#000;
+	text-decoration:none;
+	color:#fff;
+	font-size:14px;
+	padding: 15px 15px 15px 15px;
+	margin: 10px 0 0;
+	text-transform:uppercase;
+	
+}
+a.btn:hover{
+	background:#FF4200;
+	color:#fff;
+}
+.binary_cnt{
+	background:#D4D4D4;
+}
+.binary_cnt h2{
+	line-height:35px;
+	color: #191E23;
+	font-size: 2.5em;
+}
+.binary_cnt h2 span{
+	display:block;
+	color:#FF4200;
+	padding: 10px 0 10px;
+  font-size: 40px;
+  font-style: italic;
+}
+.youtube_row{
+	margin: 40px auto;
+	padding: 0px;
+
+}
+.youtube_cloum,.start_trading,.forum_cloum{
+	float:left;
+}
+.youtube_cloum{
+	height:315px;
+	background:#ddd;
+	padding: 0px;
+}
+.start_trading,.forum_cloum{
+	background-color:#FF4200;
+	padding:20px 18px;
+	border:15px solid #000;
+	margin-right:25px;
+}
+.start_trading h3,.forum_cloum h3{
+	line-height:18px;
+	color:#000;
+	font-size:24px;
+	font-weight:normal;
+	padding:40px 0 40px;
+	margin-top:70px;
+}
+.forum_cloum{
+	
+}
+.start_trading a img,.forum_cloum a img{
+	width:100%;
+}
+.payout_row{
+	padding: 26px 0px 0;
+	display:inline-block;
+}
+.payout_row a{
+	text-transform:capitalize;
+	
+}
+.payout_row li{
+	list-style:none;
+	float:left;
+	text-align:center;
+	margin-bottom:20px;
+	display:inline-block;
+}
+.payout_row li img{
+	display:block;
+}
+.btn-orange {
+    background: #FF4200;
+    padding: 22px 65px;
+    display: inline-block;
+    color: #fff;
+    text-shadow: none;
+    border-radius: 5px;
+    text-decoration: none;
+        font-size: x-large;
+}
+a.btn-orange:hover{
+    background: #FF4200;
+    color:whitesmoke;
+    }
+#footer{
+	width:100%;
+	background:#191E23;
+	padding: 15px 0 0;
+}
+.copyright_row{
+	background:#0E1214;
+	height:40px;
+}
+#footer p.footer_text,
+#footer p.copy_right{color: #6B6B6B;line-height: 22px;}
+	
