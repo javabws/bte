@@ -7,6 +7,7 @@ public class ExecuteThread {
 	static GBPUSDThread gbpusdThread=null;
 	static USDCHFThread usdchfThread=null;
 	static USDJPYThread usdjpyThread=null;
+	static TaskExecutor executor=null;
 	
 	
 	public static void startThread() {
@@ -35,4 +36,15 @@ public class ExecuteThread {
 		    System.out.println("------------------Threads Stopped-----------");
 	}
 
+	
+	public static void startExecutr() {
+		executor=new TaskExecutor();
+		executor.startThread(executor);
+		System.out.println("--------------Exucutor Started-----------");
+	}
+	
+	public static void stopExecutor() {
+		executor.stopThread();
+		System.out.println("--------------Exucutor Stopped-----------");
+	}
 }
