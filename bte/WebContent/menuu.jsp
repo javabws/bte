@@ -52,16 +52,19 @@
 									Operations</a></li>
 							<li><a href="usertrading"><i class="fa fa-refresh"></i>Chronicle
 									Trading</a></li>
-							<li><a href="userreferstats"><i class="fa fa-group"></i>Referral
-									Stats</a></li>
 							<li><a href="userpersonalinfo"><i
 									class="fa fa-pencil-square-o"></i>Personnal Info</a></li>
-									<li><a href="userforum"><i
-									class="fa fa-pencil-square-o"></i>Forum</a></li>
+							<li><a href="userforum"><i class="fa fa-list-ul"></i>Forum</a></li>
 							<li><a href="usercontactsupport"><i
 									class="fa fa-envelope-o"></i>Contact Us</a></li>
 						</ul></li>
+					<li><a><i class="fa fa-group"></i> Referral Stats <span
+							class="fa fa-chevron-down"></span></a>
+						<ul class="nav child_menu" style="display: none">
+							<li><a href="registereduser"><i class="fa fa-user"></i>Registered Users</a></li>
 
+							<li><a href="commission"><i class="fa fa-money"></i>Commissions</a></li>
+						</ul></li>
 					<li><a href="usereducation"><i class="fa fa-book"></i>
 							Education </a></li>
 					<li><a href="userrefer"><i class="fa fa-bullhorn"></i>
@@ -72,9 +75,9 @@
 					<li><a><i class="fa fa-info-circle"></i> About <span
 							class="fa fa-chevron-down"></span></a>
 						<ul class="nav child_menu" style="display: none">
-							<li><a href="userabout"><i class="fa fa-info-circle"></i>About Us</a>
-							</li>
-							
+							<li><a href="userabout"><i class="fa fa-info-circle"></i>About
+									Us</a></li>
+
 							<li><a href="userkyc"><i class="fa fa-comment"></i>KYC</a></li>
 						</ul></li>
 				</ul>
@@ -130,8 +133,8 @@
 
 				<li class=""><a href="javascript:;"
 					class="user-profile dropdown-toggle" data-toggle="dropdown"
-					aria-expanded="false"> <%=fname + " " + lname%>
-						<span class=" fa fa-angle-down"></span>
+					aria-expanded="false"> <%=fname + " " + lname%> <span
+						class=" fa fa-angle-down"></span>
 				</a>
 					<ul
 						class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -145,7 +148,7 @@
 								Operations</a></li>
 						<li><a href="usertrading"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Chronicle
 								Trading</a></li>
-								<li><a href="userforum"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Forum</a></li>
+						<li><a href="userforum"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Forum</a></li>
 
 						<li><a href="logout"><i class="fa fa-sign-out pull-right"></i>
 								Log Out</a></li>
