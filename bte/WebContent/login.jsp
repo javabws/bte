@@ -132,7 +132,7 @@ else if(val.trim()=="LOGEDIN"){
                         	</span>
                         </div>
                         <div>
-                            <input type="submit" value="Login" class="btn btn-default submit"  >
+                            <input type="submit" value="Login" class="btn btn-success submit"  >
                            <a class="reset_pass" href="forgetpassword">Lost your password?</a>
                            
                         </div>
@@ -173,14 +173,14 @@ else if(val.trim()=="LOGEDIN"){
                         	<span id="eval"></span>
                         </div>
                         <div>
-                        	 <input type="email" class="form-control" pattern="@" id="inputEmail" placeholder="Email" required="" name="email" onkeyup="emailCheck()" >
+                        	 <input type="email" autocomplete="off" class="form-control" pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" id="inputEmail" placeholder="Email" required="" name="email" onkeyup="emailCheck()" >
                         	 
                         </div>
                         <div class="checkbxcol">
                         <input type="checkbox" class="checkbx" required="required"/> I Accept <a href="tch" class="term-cond">Terms and Condition</a>
                         </div>
                         <div>
-                            <input type="submit" value="Submit" id="sub" class="btn btn-default submit"  >
+                            <input disabled type="submit" value="Submit" id="sub" class="btn btn-success submit"  >
                         </div>
                         <div class="clearfix"></div>
                         <div class="separator">
