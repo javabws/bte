@@ -112,11 +112,11 @@ if(submit!=null)
                         	</span>
                         </div>
                         <div>
-                            <input type="text" class="form-control" placeholder="Email" name="un" id="username" required="required" onkeyup="emailCheck()" >
+                            <input autocomplete="off" pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" type="text" class="form-control" placeholder="Email" name="un" id="username" required="required" onkeyup="emailCheck()" >
                         </div>
                        
                         <div>
-                            <input type="submit" value="Submit" id="submit" name="submit" class="btn btn-default submit"  >
+                            <input type="submit" value="Submit" id="submit" name="submit" class="btn btn-success submit"  >
                             <a class="reset_pass" href="login_register">Login Page</a>
                         </div>
                         <div class="clearfix"></div>
@@ -128,7 +128,7 @@ if(submit!=null)
                             <div>
                                 <h1>BinaryTradeExchnage</h1>
 
-                                <p>©2015 All Rights Reserved.BinaryTradeExchnage. Privacy and Terms</p>
+                                <p>&copy;2015 All Rights Reserved.BinaryTradeExchnage. Privacy and Terms</p>
                             </div>
                         </div>
                     </form>
