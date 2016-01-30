@@ -604,4 +604,20 @@
     <servlet-name>ForumRequest</servlet-name>
     <url-pattern>/forumrequest</url-pattern>
   </servlet-mapping>
+  <servlet>
+  <servlet-name>NoofReferral</servlet-name>
+    <jsp-file>/noofreferral.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoofReferral</servlet-name>
+    <url-pattern>/registereduser</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  <servlet-name>Commission</servlet-name>
+    <jsp-file>/commission.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Commission</servlet-name>
+    <url-pattern>/commission</url-pattern>
+  </servlet-mapping>
 </web-app>
