@@ -1,3 +1,4 @@
+<%@page import="com.btx.thread.ExecuteBoolens"%>
 <%@page import="com.btx.Bean.UserBean"%>
 <%@page import="com.btx.driver.DbDriver"%>
 <%@page import="java.util.Date"%>
@@ -7,6 +8,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
  
 <%
+
 UTCTime utc=new UTCTime();
 UserBean u = null;
 u = (UserBean) session.getAttribute("userBean");
@@ -15,6 +17,13 @@ String sym=(String)request.getParameter("sym");
 String amount=(String)request.getParameter("amount");
 String type=(String)request.getParameter("type");
 Integer ut=Integer.parseInt(request.getParameter("uhour"));
+
+//set true in ExecuteBoolens class  if any user plays in particular assets
+if(!ExecuteBoolens.isTrue(sym))
+{
+	ExecuteBoolens.setSymbolTrue(sym);
+	System.out.println("Storedata Page: "+ExecuteBoolens.isTrue(sym));
+}
 
 String udate="",utime="";
 if(ut>11)
