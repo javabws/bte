@@ -30,7 +30,7 @@
                            <input type="password" class="form-control" placeholder="Password" required="" name="password"/>
                         </div>
                         <div>
-                            <input class="btn btn-default submit" type="submit" value="Login" />
+                            <input class="btn btn-success submit" type="submit" value="Login" />
 <!--                             <a class="reset_pass" href="#">Lost your password?</a> -->
                         </div>
                         <div class="clearfix"></div>
@@ -52,7 +52,7 @@
                             <div>
                                 <h1>Binary Trade Xchange</h1>
 
-                                <p>©2015 All Rights Reserved. BinaryTradeXchange</p>
+                                <p>&copy;2015 All Rights Reserved. BinaryTradeXchange</p>
                             </div>
                         </div>
                     </form>
