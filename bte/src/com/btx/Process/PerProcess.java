@@ -23,7 +23,15 @@ public class PerProcess {
 	//----Method is using to process the first tab form in presonalinfo.jsp page-----//
 	public int firstTab(PersonalinfoBean pe,String email)  {
 		
-		
+		String country="";
+		if(pe.getCountry().equals("-1"))
+		{
+			
+		}
+		else
+		{
+			country=pe.getCountry();
+		}
 		int i = 0;
 		Savepoint savepoint=null;
 		
@@ -32,17 +40,16 @@ public class PerProcess {
 			c.setAutoCommit(false);
 			savepoint=c.setSavepoint("firsttab");
 			
-			p=c.prepareStatement("update user_details set firstname=?,lastname=?,gender=?,dateofbirth=?,country=?,city=?,zip=?,address=?,email=? where email=?");
+			p=c.prepareStatement("update user_details set firstname=?,lastname=?,gender=?,dateofbirth=?,country=?,city=?,zip=?,address=? where email=?");
 			p.setString(1, pe.getFirstname());
 			p.setString(2, pe.getLastname());
 			p.setString(3, pe.getGender());
 			p.setString(4, pe.getDateofbirth());
-			p.setString(5, pe.getCountry());
+			p.setString(5, country);
 			p.setString(6, pe.getCity());
 			p.setInt(7, Integer.parseInt(pe.getZip()));
 			p.setString(8, pe.getAddress());
-			p.setString(9,pe.getEmail());
-			p.setString(10,email);
+			p.setString(9,email);
 			i=p.executeUpdate();
 			
 			c.commit();
