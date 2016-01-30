@@ -1,3 +1,6 @@
+<%@page import="com.btx.controller.WithdrawalRequestController"%>
+<%@page import="com.btx.Bean.WithdrawalRequest"%>
+<%@page import="java.util.LinkedList"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="com.btx.driver.DbDriver"%>
 <%@page import="java.sql.Connection"%>
@@ -185,10 +188,10 @@
 								<div class="mid_center">
 									<h2 class="pull-left">ID Proof Image</h2>
 									<div class="img-preview preview-lg col-9 pull-left"
-										style="width: 263px; height: 147.938px;">
+										style="width: 240px; height: 320px;">
 										<img
 											src="getImage.jsp"
-											style="display: block; width: 328.75px; min-width: 0px !important; min-height: 0px !important; max-width: none !important; max-height: none !important; height: 184.922px; margin-left: -32.875px; margin-top: -18.4922px; transform: none;">
+											>
 									</div>
 								</div>
 							</div>
@@ -201,10 +204,38 @@
 
                                 <div class="bs-example" data-example-id="simple-jumbotron">
                                    
-                                    <div class="mid_center">
-                                    <h2>Withdrawal Request</h2>
-                                        <p>No Request.</p>
-                                    </div>
+                                        <table id="example" class="table table-striped responsive-utilities jambo_table">
+                                        <thead>
+                                            <tr class="headings">
+                                                <th>Request Id </th>
+                                                <th>OKPAY ID</th>
+                                                <th>Requested Amount </th>
+                                                <th>Time </th>
+  												<th>Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <%
+                                        WithdrawalRequestController controller=new WithdrawalRequestController();
+                                        LinkedList<WithdrawalRequest> linkedList=controller.getRequestData(u.getEmail());
+                                        for(WithdrawalRequest t:linkedList)
+                                        {
+                                        %>
+                                            <tr class="even pointer">
+                                                <td class=" "><%=t.getId() %></td>
+                                                <td class=" "><%=t.getOkpay_id() %></td>
+                                                <td class=" "><%=t.getRequested_amouunt() %></td>
+                                                <td class=" "><%=t.getRequested_time() %></td>
+                                                <td class=" "><%=t.getStatus() %></td>
+                                            </tr>
+                                             <%
+                                        }
+                                        %>
+                                           
+                                        </tbody>
+
+                                    </table>
                                 </div>
                                 
                             </div>
@@ -223,8 +254,51 @@
     
 
     <jsp:include page="footJs.jsp"></jsp:include>
-   
+    <!-- icheck -->
+    <script src="js/icheck/icheck.min.js"></script>
+    <script src="js/custom.js"></script>
+ <!-- Datatables -->
+        <script src="js/datatables/js/jquery.dataTables.js"></script>
+        <script src="js/datatables/tools/js/dataTables.tableTools.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('input.tableflat').iCheck({
+                    checkboxClass: 'icheckbox_flat-green',
+                    radioClass: 'iradio_flat-green'
+                });
+            });
 
+            var asInitVals = new Array();
+            $(document).ready(function () {
+                var oTable = $('#example').dataTable({
+                    "oLanguage": {
+                        "sSearch": "Search all columns:"
+                    },
+                	'bSort':false,
+                    'iDisplayLength': 12,
+                    "sPaginationType": "full_numbers"
+                });
+                $("tfoot input").keyup(function () {
+                    /* Filter on the column based on the index of this element's parent <th> */
+                    oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+                });
+                $("tfoot input").each(function (i) {
+                    asInitVals[i] = this.value;
+                });
+                $("tfoot input").focus(function () {
+                    if (this.className == "search_init") {
+                        this.className = "";
+                        this.value = "";
+                    }
+                });
+                $("tfoot input").blur(function (i) {
+                    if (this.value == "") {
+                        this.className = "search_init";
+                        this.value = asInitVals[$("tfoot input").index(this)];
+                    }
+                });
+            });
+        </script>
 </body>
 
 </html>
