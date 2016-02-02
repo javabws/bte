@@ -75,8 +75,7 @@ if(submit!=null)
 	{
 		
 		String path = request.getScheme() + "://"
-				+ request.getServerName() + ":"
-				+ request.getServerPort() + ""
+				+ request.getServerName() + ""
 				+ request.getContextPath() + "/forget";
 		ForgetPassword forgetPassword=new ForgetPassword();
 		msg=forgetPassword.sendForgetLink(un, path);
