@@ -288,9 +288,7 @@
 					<div class="field fo-bd">
 						<button id="call" class="call-btn" onclick="callFun()">Call</button>
 						<button id="put" class="put-btn" onclick="putFun()">Put</button>
-						<div id="clear-btn"></div><br>
 						<div id="displayTime"></div>
-						
 						 
 				</div>
 					</div>
