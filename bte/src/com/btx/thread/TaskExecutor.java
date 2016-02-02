@@ -26,6 +26,8 @@ public class TaskExecutor implements Runnable{
 	//--Stop Task Executor
 	public void stopThread() {
 		t.stop();
+		t.destroy();
+		t.interrupt();
 	}
 	@Override
 	public void run() {
