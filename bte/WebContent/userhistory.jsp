@@ -12,7 +12,7 @@ String user=(String)u.getEmail();
 PreparedStatement st=null;
 Connection conn=DbDriver.getConnection();
 ResultSet rs;
-st=conn.prepareStatement("select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from eurusd where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from gbpusd where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from usdjpy where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from usdchf where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from eurjpy where user =? and status=? order by currenttime desc limit 20");
+st=conn.prepareStatement("select userid as id,utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from eurusd where user =? and status=? union all select userid as id,utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from gbpusd where user =? and status=? union all select userid as id,utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from usdjpy where user =? and status=? union all select userid as id,utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from usdchf where user =? and status=? union all select userid as id,utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as currenttime from eurjpy where user =? and status=? order by id desc limit 20");
 st.setString(1, user);
 st.setString(2, "ACTIVE");
 st.setString(3, user);
@@ -31,10 +31,10 @@ while(rs.next())
 	%>
 	<details>
 		<utime>
-		<%=rs.getString(1)%>
+		<%=rs.getString(2)%>
 		</utime>
 		<udate>
-		<%=rs.getString(2)%>
+		<%=rs.getString(3)%>
 		</udate>
 		<currency>
 			<%=rs.getString("asset") %>
@@ -43,7 +43,7 @@ while(rs.next())
 			<%=rs.getDouble("earned") %>
 		</earned>
 		<type>
-			<%=rs.getString(4) %>
+			<%=rs.getString(5) %>
 		</type>
 		<amount>
 			<%=rs.getInt("amount") %>
