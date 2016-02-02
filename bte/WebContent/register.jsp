@@ -7,8 +7,7 @@
 <jsp:setProperty property="*" name="r" />
 <%
 	String serverpath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ "" + request.getContextPath() + "/activate";
+			+ request.getServerName() + "" + request.getContextPath() + "/activate";
 // 	RegisterProcess rp = new RegisterProcess();
 // 	boolean re = rp.registerUser(r, serverpath);
 // 	String n="1";
