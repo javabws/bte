@@ -151,16 +151,18 @@ div.asset-search input{background:none;border:1px solid #666971;border-radius: 2
     font-family: sans-serif;
     color: #fff;
 }
+
 .result_show,.result_show1{
     font-size: 19px;
-    padding: 15px 0 0;
+    padding: 15px 65px 0;
     font-family: sans-serif;
     font-weight: bold;
     background: #1D2025;
     margin: 0 auto 8px;
+    text-align: left;
 }
 .result_content,.result_show,.result_content span{
-	color: #14D814;
+	color: #E65C00;
 }
 .result_show1,.result_content1,.result_content1 span{
 	color: red;
