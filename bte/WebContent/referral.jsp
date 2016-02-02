@@ -27,7 +27,7 @@
       UserBean u=(UserBean)session.getAttribute("userBean");
 			String submit=(String) request.getParameter("submit");
 			String remail="";
-			String serverpath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+""+request.getContextPath()+"/referralregister";
+			String serverpath=request.getScheme()+"://"+request.getServerName()+""+request.getContextPath()+"/referralregister";
 			ReferralProcess per=new ReferralProcess();
  		String msg="";
  		int i=0;
