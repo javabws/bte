@@ -15,8 +15,8 @@ String user=(String)u.getEmail();
 PreparedStatement st=null;
 Connection conn=DbDriver.getConnection();
 ResultSet rs;
-double amount=0.0,earned=0.0,totalAmount=0.0,lost=0.0;
-int win=0;
+double amount=0.0,totalAmount=0.0,lost=0.0,prof=0.0;
+int win=0,no_of_calls=0,no_of_puts=0;
 st=conn.prepareStatement("select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from eurusd where year=? and month=? and date=? and hour=? and minute=? and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from usdjpy where year=? and month=? and date=? and hour=? and minute=? and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from gbpusd where year=? and month=? and date=? and hour=? and minute=? and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from eurjpy where year=? and month=? and date=? and hour=? and minute=? and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from usdchf where year=? and month=? and date=? and hour=? and minute=? and status=? and user=?");
 st.setInt(1,utc.getYear());
 st.setInt(2,utc.getCurrentTimeStamp().getMonth());
@@ -59,7 +59,13 @@ while(rs.next())
 	amount+=Double.parseDouble(rs.getString("amount"));
 	totalAmount+=Double.parseDouble(rs.getString("amount"));
 	totalAmount-=Double.parseDouble(rs.getString("lost"));
+	lost+=Double.parseDouble(rs.getString("lost"));
 	totalAmount+=Double.parseDouble(rs.getString("earned"));
+	prof+=Double.parseDouble(rs.getString("earned"));
+	if(rs.getString("type").equals("call"))
+		no_of_calls++;
+	else
+		no_of_puts++;
 }
 st=conn.prepareStatement("select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from eurusd where year=? and month=? and date=? and hour=? and (minute=? and second>56) and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from usdjpy where year=? and month=? and date=? and hour=? and (minute=? and second>56) and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from gbpusd where year=? and month=? and date=? and hour=? and (minute=? and second>56) and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from eurjpy where year=? and month=? and date=? and hour=? and (minute=? and second>56) and status=? and user=? union all select amount,type,gtype,earned,lost as amount,type,gtype,earned,lost from usdchf where year=? and month=? and date=? and hour=? and (minute=? and second>56) and status=? and user=?");
 st.setInt(1,utc.getYear());
@@ -102,8 +108,14 @@ while(rs.next())
 {
 	amount+=Double.parseDouble(rs.getString("amount"));
 	totalAmount+=Double.parseDouble(rs.getString("amount"));
+	lost+=Double.parseDouble(rs.getString("lost"));
 	totalAmount-=Double.parseDouble(rs.getString("lost"));
 	totalAmount+=Double.parseDouble(rs.getString("earned"));
+	prof+=Double.parseDouble(rs.getString("earned"));
+	if(rs.getString("type").equals("call"))
+		no_of_calls++;
+	else
+		no_of_puts++;
 }
 
 if(totalAmount>amount)
@@ -119,5 +131,17 @@ if(totalAmount>amount)
 	<win>
 	<%=win%>
 	</win>
+	<profit>
+	<%=prof%>
+	</profit>
+	<lost>
+	<%=lost%>
+	</lost>
+	<calls>
+	<%=no_of_calls%>
+	</calls>
+	<puts>
+	<%=no_of_puts%>
+	</puts>
 </details>
 </root>
