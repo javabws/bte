@@ -74,13 +74,21 @@ function getPopupDetails()		//Getting user's profit/lose details from database
 			var i;
 			var profValue=0.0;
 			var xmldoc = xmlhttp.responseXML;
-			var amount = xmldoc.getElementsByTagName("amount")[0].childNodes[0].nodeValue;
+			var amount = parseInt(xmldoc.getElementsByTagName("amount")[0].childNodes[0].nodeValue);
 			var totalAmount = xmldoc.getElementsByTagName("totalAmount")[0].childNodes[0].nodeValue;
-			var win = parseInt((xmldoc.getElementsByTagName("win")[0].childNodes[0].nodeValue).trim());
-			if(win==1)
-				document.getElementById('pop-det').innerHTML="<h2 class='result_show'>PROFIT</h2><h2 class='result_content'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
-			else
-				document.getElementById('pop-det').innerHTML="<h2 class='result_show1'>PROFIT</h2><h2 class='result_content1'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
+			totalAmount=parseFloat(totalAmount).toFixed(2);
+			var profit = xmldoc.getElementsByTagName("profit")[0].childNodes[0].nodeValue;
+			profit=parseFloat(profit).toFixed(2);
+			var lost = xmldoc.getElementsByTagName("lost")[0].childNodes[0].nodeValue;
+			lost=parseFloat(lost).toFixed(2);
+			var calls=xmldoc.getElementsByTagName("calls")[0].childNodes[0].nodeValue;
+			var puts=xmldoc.getElementsByTagName("puts")[0].childNodes[0].nodeValue;
+//			var win = parseInt((xmldoc.getElementsByTagName("win")[0].childNodes[0].nodeValue).trim());
+//			if(win==1)
+//				document.getElementById('pop-det').innerHTML="<h2 class='result_show'>PROFIT</h2><h2 class='result_content'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
+//			else
+//				document.getElementById('pop-det').innerHTML="<h2 class='result_show1'>PROFIT</h2><h2 class='result_content1'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
+			document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Lost</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr></table></h2>";
 			div_show();
 		}
 	}
@@ -222,8 +230,6 @@ function clearOpenDeals()		// Clearing the deals displaying in top left
 function disableOptionButton()		// Clearing the clear button and timer in top left
 {
 	document.getElementById('counter').innerHTML="";
-	document.getElementById("clear-btn").innerHTML="";
-	optionButton=false;
 }
 function clearData()		// Deleting the current deals of  user
 {
@@ -368,12 +374,10 @@ function saveData() {		//Storing the deal details in database
 		counter=true;
 		if(optionButton==true&&deal==true)
 			{
-			console.log("Entered");
 			deal=false;
 			var t=document.getElementById('sam');
 			t.style.height="121px";
 			}
-		console.log(optionButton+""+deal);
 		if(optionButton==false)
 		{
 //			document.getElementById("clear-btn").innerHTML="<a id='clearButton' class='lean-btn' onclick=clearData()>Clear</a>";
@@ -409,7 +413,6 @@ function saveData() {		//Storing the deal details in database
 		xmlhttp.setRequestHeader("Content-type",
 		"application/x-www-form-urlencoded");
 		xmlhttp.send("amount=" + amount +  "&type=" + type+"&value="+y+"&uminute="+d.getMinutes()+"&uhour="+d.getHours()+"&udate="+d.getDate()+"&umonth="+(d.getMonth()+1)+"&uyear="+d.getFullYear()+"&sym="+sym);
-		console.log(amount);
 		no_of_opendeals++;
 		amount=parseInt(amount);
 		pr=parseFloat(pr);
