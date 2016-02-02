@@ -1,3 +1,4 @@
+<%@page import="com.btx.logic.GameSchedulerFactory"%>
 <%@page import="com.btx.thread.ExecuteBoolens"%>
 <%@page import="com.btx.Bean.UserBean"%>
 <%@page import="com.btx.driver.DbDriver"%>
@@ -21,7 +22,8 @@ Integer ut=Integer.parseInt(request.getParameter("uhour"));
 //set true in ExecuteBoolens class  if any user plays in particular assets
 if(!ExecuteBoolens.isTrue(sym))
 {
-	ExecuteBoolens.setSymbolTrue(sym);
+// 	ExecuteBoolens.setSymbolTrue(sym);
+	GameSchedulerFactory.startAssets(sym);
 	System.out.println("Storedata Page: "+ExecuteBoolens.isTrue(sym));
 }
 
