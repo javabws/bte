@@ -71,7 +71,7 @@
                                                 <th>Value </th>
   												<th> Operation Type</th>
   												 
-   											    <th> Expiry Value</th>
+   											    <th> Decision Value</th>
    											    <th> Amount</th>
                                                 <th> Profit</th>
                                                 <th> Lost</th>
@@ -88,9 +88,9 @@
                                                 <td class=" "><%=r.getString("type") %></td>
                                               
                                                 <td class=" "><%=r.getDouble("expiryvalue") %></td>
-                                                <td class=" ">$ <%=r.getDouble("amount") %></td>
-                                                <td class=" ">$ <%=r.getDouble("earned") %></td>
-                                                <td class=" "><%=r.getDouble("lost") %> %</td>
+                                                <td class=" ">$ <%=String.format("%.2f", r.getDouble("amount")) %></td>
+                                                <td class=" ">$ <%=String.format("%.2f", r.getDouble("earned")) %></td>
+                                                <td class=" ">$ <%=String.format("%.2f", r.getDouble("lost")) %> </td>
                                             </tr>
                                              <%}
                                         
