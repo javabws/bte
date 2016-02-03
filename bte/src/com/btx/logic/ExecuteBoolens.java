@@ -96,4 +96,29 @@ public class ExecuteBoolens {
 		}
 			
 	}
+public static void setSymbolFalse(String symbol) {
+		
+		
+		if(symbol.equals("EURUSD"))
+		{
+			setEurusd(false);
+		}
+		else if(symbol.equals("EURJPY"))
+		{
+			setEurjpy(false);
+		}
+		else if(symbol.equals("USDJPY"))
+		{
+			setUsdjpy(false);
+		}
+		else if(symbol.equals("USDCHF"))
+		{
+			setUsdchf(false);
+		}
+		else if(symbol.equals("GBPUSD"))
+		{
+			setGbpusd(false);
+		}
+			
+	}
 }
