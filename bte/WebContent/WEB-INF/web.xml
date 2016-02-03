@@ -4,9 +4,9 @@
   <welcome-file-list>
     <welcome-file>home</welcome-file>
   </welcome-file-list>
-   <listener>
-       <listener-class>com.btx.listener.ThreadExecutor</listener-class>
-    </listener>
+<!--    <listener> -->
+<!--        <listener-class>com.btx.listener.ThreadExecutor</listener-class> -->
+<!--     </listener> -->
   <servlet>
     <servlet-name>Error</servlet-name>
     <jsp-file>/error.jsp</jsp-file>
