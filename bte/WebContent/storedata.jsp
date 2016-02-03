@@ -1,5 +1,5 @@
 <%@page import="com.btx.logic.GameSchedulerFactory"%>
-<%@page import="com.btx.thread.ExecuteBoolens"%>
+<%@page import="com.btx.logic.ExecuteBoolens"%>
 <%@page import="com.btx.Bean.UserBean"%>
 <%@page import="com.btx.driver.DbDriver"%>
 <%@page import="java.util.Date"%>
