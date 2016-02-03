@@ -43,10 +43,14 @@ public class GameHandler {
 	public void execute(){
 		executor.execute(getPlayerHandler(groupType));
 		try {
+			utcTime=new UTCTime();
 			
-			
-			executor.awaitTermination(5, TimeUnit.SECONDS);
+			executor.awaitTermination((60-utcTime.getSecond()), TimeUnit.SECONDS);
+			ExecuteBoolens.setSymbolFalse(groupType);
 		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -60,6 +64,7 @@ public class GameHandler {
 			utcTime=new UTCTime();
 			
 			executor.awaitTermination((60-utcTime.getSecond()), TimeUnit.SECONDS);
+			ExecuteBoolens.setSymbolFalse(groupType);
 			if(futureRes.get()==null){
 				System.out.println("Executed successfully...");
 			}
