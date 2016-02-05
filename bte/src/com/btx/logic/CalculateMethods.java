@@ -14,7 +14,7 @@ public class CalculateMethods {
 	
 	
 	
-		private static double walletamount=0.0;
+		private static double walletamount=1;
 		synchronized public static void updateWallet(String type,double amount,String email) throws SQLException
 		{
 			String operator="";
@@ -32,19 +32,22 @@ public class CalculateMethods {
 //				walletamount=rs.getDouble("amount");
 //				System.out.println(email +"Wallet amount: "+walletamount);
 //			}
-			if(type.equals("lost") && walletamount!=0)
+			if(type.equals("lost") )
 			{
 				operator="-";
+//				System.out.println("Operator: "+operator);
 			}
-			else if(type.equals("won") && walletamount!=0)
+			else if(type.equals("won") )
 			{
 				operator="+";
+//				System.out.println("Operator: "+operator);
 			}
-			else if(type.equals("refer") && walletamount!=0)
+			else if(type.equals("refer"))
 			{
 				operator="+";
+//				System.out.println("Operator: "+operator);
 			}
-			System.out.println(email +"Wallet amount: "+walletamount);
+//			System.out.println(email +"---Wallet amount: "+walletamount);
 			
 			st = conn
 					.prepareStatement("update wallets set amount=amount"+operator+"? where email=?");
@@ -53,6 +56,7 @@ public class CalculateMethods {
 			st.executeUpdate();
 			walletamount=0.0;
 			amount=0.0;
+			System.out.println("-------------Wallet updated----------"+email);
 		}
 		
 		
@@ -94,6 +98,25 @@ public class CalculateMethods {
 			
 			companywalletamount=0.0;
 			amount=0.0;
+		}
+		
+		
+		synchronized public static void insertReferralHistory(String type,double amount,String referrer_id,String referid) throws SQLException
+		{
+			try {
+				conn=DbDriver.getConnection();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			st = conn
+					.prepareStatement("insert into referral_process (referrer_id,refer_id,type,amount) values(?,?,?,?)");
+			st.setString(1, referrer_id);
+			st.setString(2, referid);
+			st.setString(3, type);
+			st.setDouble(4, amount);
+			st.executeUpdate();
+			
 		}
 		
 		
