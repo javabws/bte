@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 	
-	<title>Binaryexchangetrade</title>
+	<title>Education | BinaryTradeExchange.com</title>
 	<jsp:include page="headn.jsp"></jsp:include>
 </head>
 <body>

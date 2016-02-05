@@ -147,7 +147,7 @@ a.btn:hover{
 	width:100%;
 }
 .payout_row{
-	padding: 26px 0px 0;
+	padding: 0px 0px 0;
 	display:inline-block;
 }
 .payout_row a{
@@ -189,4 +189,8 @@ a.btn-orange:hover{
 }
 #footer p.footer_text,
 #footer p.copy_right{color: #6B6B6B;line-height: 22px;}
-	
+
+.vert-non{
+	vertical-align: 0;
+}
+

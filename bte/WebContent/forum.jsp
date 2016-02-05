@@ -27,7 +27,7 @@ if(forward1==1)
 		msg=(String)request.getParameter("msg");
 	}
 	%>
-	<title>Binaryexchangetrade</title>
+	<title>Forum | BinaryTradeExchange.com</title>
 	<jsp:include page="headn.jsp"></jsp:include>
 	
 </head>

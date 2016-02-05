@@ -12,7 +12,7 @@ if(forward1==1)
 	}
 </script>
 	
-	<title>Binaryexchangetrade</title>
+	<title>Home | BinaryTradeExchange.com</title>
 	<jsp:include page="headn.jsp"></jsp:include>
 </head>
 <body>
