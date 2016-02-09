@@ -244,14 +244,15 @@ public class PlayerHandler implements Runnable {
 		//---getting expiry value in 60 th second
 		public double getExpiryValue(String at) {
 			
-			String url = "http://binarytradexchange.com:8080/feed/get"+at+".jsp";
+//			String url = "http://binarytradexchange.com:8080/feed/get"+at+".jsp";
+			String url = "http://localhost:8082/feed/get"+at+".jsp";
 			double yvalue=0.0;
 	        try {
 	            String genreJson = IOUtils.toString(new URL(url));
 	            JSONObject genreJsonObject = (JSONObject) JSONValue.parseWithException(genreJson);
 	            JSONObject _source=(JSONObject)genreJsonObject.get("_source");
 	            yvalue=Double.parseDouble((String)_source.get("yvalue"));
-	            System.out.println(yvalue);
+	            System.out.println("=============Expiry Value: "+yvalue);
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        } catch (org.json.simple.parser.ParseException e) {
@@ -299,6 +300,7 @@ public class PlayerHandler implements Runnable {
 					if(totalp==0.0) //---total put amount is 0 then update the user wallet
 					{
 						lostIteration(totalp, fpItr,at);
+						updateExpiryValue(expiryValue,fcItr,at);
 					}
 					else  //-- Remaining amount is transfered to company wallet
 					{
@@ -317,6 +319,7 @@ public class PlayerHandler implements Runnable {
 					if(totalc==0.0) //---total call amount is 0 then update the user wallet
 					{
 						lostIteration(totalc, fcItr,at);
+						updateExpiryValue(expiryValue,fpItr,at);
 					}
 					else  //-- Remaining amount is transfered to company wallet
 					{
@@ -355,7 +358,27 @@ public class PlayerHandler implements Runnable {
 		}
 
 		
-		
+		//-----update Expiry value to DB
+		public  void updateExpiryValue(Double expiryValue2, Iterator fcItr2, String at) throws SQLException {
+			
+			
+			while (fcItr2.hasNext())
+			{
+				ca = (CalculateBean) fcItr2.next();
+				st = conn
+						.prepareStatement("update "+at.toLowerCase()+" set expiryvalue=? where userid=?");
+				st.setDouble(1, expiryValue2);
+				st.setLong(2, ca.getUserid());
+				st.executeUpdate();
+				System.out.println("===========update Expiry value========="+ca.getUserid());
+				
+			}
+			
+			
+		}
+
+
+
 		double lost=0.0,bal=0.0,refer_amount=0.0;
 		Double total=0.0;
 		final String wtype="won",ltype="lost",ctype="Gaming";
@@ -414,6 +437,7 @@ public class PlayerHandler implements Runnable {
 					System.out.println("Refer Amount: "+(-refer_amount));
 					CalculateMethods.updateCompanyWallet("Referral", (-refer_amount), ca.getUser());
 					CalculateMethods.updateWallet("refer", refer_amount, refer);
+					CalculateMethods.insertReferralHistory("Trading", refer_amount, refer, ca.getUser());
 				}
 				
 				//inserting expiry value
@@ -475,6 +499,7 @@ public class PlayerHandler implements Runnable {
 							System.out.println("Refer Amount: "+(-refer_amount));
 							CalculateMethods.updateCompanyWallet("Referral", (-refer_amount), ca.getUser());
 							CalculateMethods.updateWallet("refer", refer_amount, refer);
+							CalculateMethods.insertReferralHistory("Trading", refer_amount, refer, ca.getUser());
 						}
 					
 						
@@ -523,6 +548,7 @@ public class PlayerHandler implements Runnable {
 			st.setDouble(1, expiry);
 			st.setLong(2, userid);
 			st.executeUpdate();
+			System.out.println("=======Updated Expiry value========== "+userid);
 		}
 	
 	

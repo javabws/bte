@@ -4,23 +4,24 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import com.btx.logic.ExecutorStatic;
 
 public class GameHandler {
 
 	private String groupType;
 	private Map<String, PlayerHandler> assetGame = new HashMap<String, PlayerHandler>();
-	private ExecutorService executor;
+	private ExecutorStatic executor;
 	private UTCTime utcTime=null;
 	
 	public GameHandler(String groupType) {
 		System.out.println("-------GameHandler-------");
 		this.groupType = groupType;
 		createPlayerHandler(groupType);
-		executor = Executors.newCachedThreadPool(getThread());
+		executor.setExecutorService(Executors.newCachedThreadPool(getThread()));
 	}
 
 	private void createPlayerHandler(String key) {
@@ -41,11 +42,12 @@ public class GameHandler {
 	}
 	
 	public void execute(){
-		executor.execute(getPlayerHandler(groupType));
+		executor.getExecutorService().execute(getPlayerHandler(groupType));
 		try {
 			utcTime=new UTCTime();
 			
-			executor.awaitTermination((60-utcTime.getSecond()), TimeUnit.SECONDS);
+			executor.getExecutorService().awaitTermination((60-utcTime.getSecond()), TimeUnit.SECONDS);
+			System.out.println("-----------------After await-------------");
 			ExecuteBoolens.setSymbolFalse(groupType);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -59,11 +61,11 @@ public class GameHandler {
 	}
 	
 	public void submit(){
-		Future<?> futureRes = executor.submit(getPlayerHandler(groupType));
+		Future<?> futureRes = executor.getExecutorService().submit(getPlayerHandler(groupType));
 		try {
 			utcTime=new UTCTime();
 			
-			executor.awaitTermination((60-utcTime.getSecond()), TimeUnit.SECONDS);
+			executor.getExecutorService().awaitTermination((60-utcTime.getSecond()), TimeUnit.SECONDS);
 			ExecuteBoolens.setSymbolFalse(groupType);
 			if(futureRes.get()==null){
 				System.out.println("Executed successfully...");

@@ -7,57 +7,70 @@ import com.btx.logic.GameHandler;
 public class GameSchedulerFactory {
 
 	
+	static GameHandler eurusdHanlder = new GameHandler(BTEConstants.EURUSD);
+	static GameHandler eurjpyHanlder = new GameHandler(BTEConstants.EURJPY);
+	static GameHandler usdjpyHanlder = new GameHandler(BTEConstants.USDJPY);
+	static GameHandler usdchfHanlder = new GameHandler(BTEConstants.USDCHF);
+	static GameHandler gbpusdHanlder = new GameHandler(BTEConstants.GBPUSD);
+	
 	///////////////////////////////////////////////////////////////////
 	public static void startEURUSD() {
 		
+		System.out.println("--------EURUSD GameHandler---------");
 		if(!ExecuteBoolens.isEurusd())
 		{
 			ExecuteBoolens.setEurusd(true);
 		}
-		GameHandler eurusdHanlder = new GameHandler(BTEConstants.EURUSD);
+		
 		eurusdHanlder.getPlayerHandler(BTEConstants.EURUSD).setAsset_type(BTEConstants.EURUSD);
 		eurusdHanlder.execute();
 
 	}
 	public static void startEURJPY() {
 		
+		System.out.println("--------EURJPY GameHandler---------");
 		if(!ExecuteBoolens.isEurjpy())
 		{
 			ExecuteBoolens.setEurjpy(true);
 		}
-		GameHandler eurjpyHanlder = new GameHandler(BTEConstants.EURJPY);
+		
 		eurjpyHanlder.getPlayerHandler(BTEConstants.EURJPY).setAsset_type(BTEConstants.EURJPY);
 		eurjpyHanlder.execute();
 
 	}
 	public static void startUSDJPY() {
 		
+		System.out.println("--------USDJPY GameHandler---------");
 		if (!ExecuteBoolens.isUsdjpy()) 
 		{
 			ExecuteBoolens.setUsdjpy(true);
 		}
-		GameHandler usdjpyHanlder = new GameHandler(BTEConstants.USDJPY);
+		
 		usdjpyHanlder.getPlayerHandler(BTEConstants.USDJPY).setAsset_type(BTEConstants.USDJPY);
 		usdjpyHanlder.execute();
 
 	}
 	public static void startUSDCHF() {
+		
+		System.out.println("--------USDCHF GameHandler---------");
 		if(!ExecuteBoolens.isUsdchf())
 		{
 			ExecuteBoolens.setUsdchf(true);
 		}
-		GameHandler usdchfHanlder = new GameHandler(BTEConstants.USDCHF);
+		
 		usdchfHanlder.getPlayerHandler(BTEConstants.USDCHF).setAsset_type(BTEConstants.USDCHF);
 		usdchfHanlder.execute();
 		
 
 	}
 	public static void startGBPUSD() {
+		
+		System.out.println("--------GBPUSD GameHandler---------");
 		if(!ExecuteBoolens.isGbpusd())
 		{
 			ExecuteBoolens.setGbpusd(true);
 		}
-		GameHandler gbpusdHanlder = new GameHandler(BTEConstants.GBPUSD);
+		
 		gbpusdHanlder.getPlayerHandler(BTEConstants.GBPUSD).setAsset_type(BTEConstants.GBPUSD);
 		gbpusdHanlder.execute();
 
