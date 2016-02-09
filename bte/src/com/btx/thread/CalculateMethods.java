@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.btx.logic.DbDriver;
+
 public class CalculateMethods {
 	
 	private static PreparedStatement st = null;
@@ -17,43 +19,46 @@ public class CalculateMethods {
 		private static double walletamount=0.0;
 		synchronized public static void updateWallet(String type,double amount,String email) throws SQLException
 		{
+			String operator="";
 			try {
 				conn=DbDriver.getConnection();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			st = conn
-					.prepareStatement("select amount from wallets where email=?");
-			st.setString(1, email);
-			rs=st.executeQuery();
-			if(rs.next())
+//			st = conn
+//					.prepareStatement("select amount from wallets where email=?");
+//			st.setString(1, email);
+//			rs=st.executeQuery();
+//			if(rs.next())
+//			{
+//				walletamount=rs.getDouble("amount");
+//				System.out.println(email +"Wallet amount: "+walletamount);
+//			}
+			if(type.equals("lost") )
 			{
-				walletamount=rs.getDouble("amount");
-				System.out.println(email +"Wallet amount: "+walletamount);
+				operator="-";
+//				System.out.println("Operator: "+operator);
 			}
-			if(type.equals("lost") && walletamount!=0)
+			else if(type.equals("won") )
 			{
-				walletamount=walletamount-amount;
+				operator="+";
+//				System.out.println("Operator: "+operator);
 			}
-			else if(type.equals("won") && walletamount!=0)
+			else if(type.equals("refer"))
 			{
-				walletamount=walletamount+amount;
+				operator="+";
+//				System.out.println("Operator: "+operator);
 			}
-			else if(type.equals("refer") && walletamount!=0)
-			{
-				walletamount=walletamount+amount;
-				System.out.println("Wallet Refer: "+walletamount);
-				System.out.println("Wallet Refer amount: "+amount);
-			}
-			System.out.println(email +"Wallet amount: "+walletamount);
+//			System.out.println(email +"---Wallet amount: "+walletamount);
 			
 			st = conn
-					.prepareStatement("update wallets set amount=? where email=?");
-			st.setDouble(1, walletamount);
+					.prepareStatement("update wallets set amount=amount"+operator+"? where email=?");
+			st.setDouble(1, amount);
 			st.setString(2, email);
 			st.executeUpdate();
 			walletamount=0.0;
 			amount=0.0;
+			System.out.println("-------------Wallet updated----------"+email);
 		}
 		
 		
