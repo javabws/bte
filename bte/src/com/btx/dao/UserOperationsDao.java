@@ -444,12 +444,14 @@ public class UserOperationsDao {
 		return isCreated;
 	}
 	
-	public void createReferralProfileTxn(String referralId, String refereeEmail, double amount, Savepoint rollUpto) throws SQLException
+	public void createReferralProfileTxn(String referralId, String refereeEmail, double amount, Savepoint rollUpto)
 	{
+		System.out.println("Referral Method");
 		PreparedStatement stmtReferralList = null;
 		PreparedStatement stmtReferralProcess = null;
 		
 		try{
+			Connection conn=DbDriver.getConnection();
 			// Preparing the insert query for Referral_list table
 			stmtReferralList = conn.prepareStatement("insert into referral_list (referrer_id,refer_id,status,time) values(?,?,?,?)");
 			stmtReferralList.setString(1, referralId);
@@ -458,13 +460,15 @@ public class UserOperationsDao {
 			stmtReferralList.setTimestamp(4, Util.getCurrentTimeStamp());
 			
 			// Preparing the insert query for Referral_process table
-			stmtReferralProcess = conn.prepareStatement("insert into referral_process (referrer_id,refer_id,type,time,amount) values(?,?,?,?)");
+			stmtReferralProcess = conn.prepareStatement("insert into referral_process (referrer_id,refer_id,type,time,amount) values(?,?,?,?,?)");
 			stmtReferralProcess.setString(1, referralId);
 			stmtReferralProcess.setString(2, refereeEmail);
 			stmtReferralProcess.setString(3, "Registration");
 			stmtReferralProcess.setTimestamp(4, Util.getCurrentTimeStamp());
 			stmtReferralProcess.setDouble(5, amount);
 			
+			stmtReferralList.execute();
+			stmtReferralProcess.execute();
 		}
 		catch(SQLException e)
 		{ 
@@ -472,7 +476,6 @@ public class UserOperationsDao {
 				conn.rollback(rollUpto);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
-				throw new SQLException(e1); 
 			}
 			e.printStackTrace();
 		}
@@ -482,11 +485,18 @@ public class UserOperationsDao {
 				conn.rollback(rollUpto);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
-				throw new SQLException(e1); 
+			}
+			e.printStackTrace();
+		} catch (IOException e) {
+			try {
+				conn.rollback(rollUpto);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			e.printStackTrace();
 		}
-		
+		System.out.println("Referral Method Exit");
 	}
 	
 }
