@@ -88,7 +88,7 @@ function getPopupDetails()		//Getting user's profit/lose details from database
 //				document.getElementById('pop-det').innerHTML="<h2 class='result_show'>PROFIT</h2><h2 class='result_content'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
 //			else
 //				document.getElementById('pop-det').innerHTML="<h2 class='result_show1'>PROFIT</h2><h2 class='result_content1'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
-			document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Lost</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr></table></h2>";
+			document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Loss</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr></table></h2>";
 			div_show();
 		}
 	}
@@ -136,15 +136,26 @@ function displayDeals()			//Displaying user previous details in top left
 				var earned = parseFloat(xmldoc.getElementsByTagName("earned")[i].childNodes[0].nodeValue);
 				var val = parseFloat(xmldoc.getElementsByTagName("value")[i].childNodes[0].nodeValue);
 				earned=earned.toFixed(2);
+				var clr;
+				if(earned>0)
+					clr="#2cac40";
+				else
+					clr="#E65C00";
 				var type= xmldoc.getElementsByTagName("type")[i].childNodes[0].nodeValue;
 				var amount = xmldoc.getElementsByTagName("amount")[i].childNodes[0].nodeValue;
+//				document.getElementById('deal').innerHTML+="<table><tbody>";
+//				document.getElementById('deal').innerHTML+="<tr><td>"+utime+"</td><td></td></tr></tbody></table>"
+//				document.getElementById('deal').innerHTML+="<tr><td>"+udate+"</td><td><font color='white'>"+val+"</font></td></tr>";		
+//				document.getElementById('deal').innerHTML+="<tr><td><font color='white'>"+currency.substring(0,3)+"/"+currency.substring(3,7)+"</font></td><td><font color='"+clr+"'><b><i class='fa fa-dollar'></i>"+earned+"</b></font></td></tr>";
+//				document.getElementById('deal').innerHTML+="<tr><td>"+type+"</td><td><i class='fa fa-dollar'>"+amount+"</i></td></tr>";
+//				document.getElementById('deal').innerHTML+="</tbody></table>";
 				document.getElementById('deal').innerHTML+="<li>";
 				document.getElementById('deal').innerHTML+="<div>";
 				document.getElementById('deal').innerHTML+="<div><font color='white'>"+utime+"</font></div>"
-				document.getElementById('deal').innerHTML+="<div>"+udate+"<font color='white'>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;"+val+"</font></div>";		
-				document.getElementById('deal').innerHTML+="<div><font color='white'>"+currency.substring(0,3)+"/"+currency.substring(3,7)+"</font>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<font color='#E65C00'><b><i class='fa fa-dollar'></i>"+earned+"</b></font></div>";
-				document.getElementById('deal').innerHTML+="<div>"+type+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;<i class='fa fa-dollar'>"+amount+"</i></div>";
-				document.getElementById('deal').innerHTML+="</div></li>";
+				document.getElementById('deal').innerHTML+="<div>"+udate+"<font color='white'>&emsp;&emsp;&emsp;&emsp;&emsp;"+val+"</font></div>";		
+				document.getElementById('deal').innerHTML+="<div><font color='white'>"+currency.substring(0,3)+"/"+currency.substring(3,7)+"</font>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<i class='fa fa-dollar'>"+amount+"</i></div>";
+				document.getElementById('deal').innerHTML+="<div>"+type+"</font>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;<font color='"+clr+"'><b><i class='fa fa-dollar'></i>&nbsp;"+earned+"</b></font></div>";
+				document.getElementById('deal').innerHTML+="</div></li>";			
 			}
 		}
 	}
@@ -269,9 +280,10 @@ function disableButton() {		//Enabling and disabling the call and put button
 function displayTime()		//Displaying timer in top left
 {
 	d = new Date();
-	sec = d.getSeconds();
-	sec3=60-sec;
-	if(counter&&sec==0&&min1==d.getMinutes()){
+	sec = ServerDate.getUTCSeconds();
+	
+	sec3=59-sec;
+	if(counter&&sec==0&&min1==ServerDate.getUTCMinutes()){
 		document.getElementById('counter').innerHTML="";
 		counter=false;}
 	if(sec==30)
@@ -286,11 +298,8 @@ function displayTime()		//Displaying timer in top left
 				document.getElementById('counter').innerHTML="<span class='main-profitg'>"+"  "+"<i class='fa fa-clock-o'></i> 00:"+sec3+"</span>";
 			}
 	}
-	if(sec==2&&d.getMinutes()==min1)
+	if(sec==2&&ServerDate.getUTCMinutes()==min1)
 	{
-		displayDeals();
-		if(userEnable==true)
-			getPopupDetails();
 		openDeal=false;
 		document.getElementById('openDealsList').innerHTML="<p class='no_result'>No Open Deals</p>";
 		getBalanceAmount();
@@ -300,14 +309,17 @@ function displayTime()		//Displaying timer in top left
 		no_of_opendeals=parseInt(0);
 		deal=true;
 		optionButton=false;
+		if(userEnable==true)
+			getPopupDetails();
+		displayDeals();
 	}
-	setTimeout(displayTime, 1000);
+//	setTimeout(displayTime, 1000);
 }
 function digitalClock()		//Displaying timer in bottom right
 {
 	d1 = new Date();
-	sec2 = d1.getSeconds();
-	sec1=60-sec2;
+	sec2 = sec;
+	sec1=59-sec2;
 	if(blink)				//Blinking timer
 	{
 		if(sec1<=10)
@@ -385,8 +397,8 @@ function saveData() {		//Storing the deal details in database
 			deal=true;
 			openDeal=true;
 			d = new Date();
-			min=d.getMinutes();
-			sec = d.getSeconds();
+			min=ServerDate.getUTCMinutes();
+			sec = ServerDate.getUTCSeconds();
 			min1=min+1;
 //			if(sec>30)
 //			{
@@ -427,9 +439,9 @@ function saveData() {		//Storing the deal details in database
 //		document.getElementById('openDealsList').innerHTML+="</div><br>";
 		
 		
-		document.getElementById('sam').innerHTML+="<div><font color='white'>Now</font><br>";
-		document.getElementById('sam').innerHTML+="<font color='white'>"+sym.substring(0,3)+"/"+sym.substring(3,7)+"</font>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<font color='#E65C00'><b><i class='fa fa-dollar'></i>"+pr+"</b></font><br>";
-		document.getElementById('sam').innerHTML+=type+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<i class='fa fa-dollar'>"+amount+"</i>";
+		document.getElementById('sam').innerHTML+="<div><font color='white'>Now</font>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;<font color='white'>"+y+"</font><br>";
+		document.getElementById('sam').innerHTML+="<font color='white'>"+sym.substring(0,3)+"/"+sym.substring(3,7)+"</font>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b><i class='fa fa-dollar'></i>&nbsp;"+amount+"</b><br>";
+		document.getElementById('sam').innerHTML+=type+"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<font color='#2cac40'><i class='fa fa-dollar'></i>&nbsp;"+pr+"</font>";
 		document.getElementById('sam').innerHTML+="</div></div><br>";
 
 		
@@ -535,8 +547,10 @@ function loadChart(symbol)
 									displayTime();
 									digitalClock();
 									setInterval(function () {
+										displayTime();
 										var x = (new Date()).getTime();
 										returnValue(chart,x,sym);
+										
 									}, 1000);
 								}
 							}
