@@ -121,7 +121,7 @@ public class RegisterProcess
 		if(rs.next()){
 			referrer_id=rs.getString("email");
 			 String vcode = randomString();
-			 double amount=100;
+			 double amount=0;
 			 double amo=0;
 			Statement st = con.createStatement();
 			 int l = st.executeUpdate("insert into user_details (email,password,firstname,lastname,status,time,referral_link) values('"+r.getEmail()+"','"+r.getPassword()+"','"+r.getFirstname()+"','"+r.getLastname()+"','Inactive','"+getCurrentTimeStamp()+"','"+randomString()+"')");
