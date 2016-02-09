@@ -23,7 +23,7 @@ Integer ut=Integer.parseInt(request.getParameter("uhour"));
 if(!ExecuteBoolens.isTrue(sym))
 {
 // 	ExecuteBoolens.setSymbolTrue(sym);
-	GameSchedulerFactory.startAssets(sym);
+	GameSchedulerFactory.startAssets(sym); 
 	System.out.println("Storedata Page: "+ExecuteBoolens.isTrue(sym));
 }
 
