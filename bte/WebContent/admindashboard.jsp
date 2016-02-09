@@ -1,4 +1,4 @@
-<%@page import="com.btx.Process.RegisterProcess"%>
+ <%@page import="com.btx.Process.RegisterProcess"%>
 <%@page import="com.btx.Bean.RegisterBean"%>
 <%@page import="com.btx.Bean.AdminBean"%>
 <%@page import="java.sql.ResultSet"%>
@@ -98,7 +98,11 @@ function automanual()
 
            <jsp:include page="menua.jsp"></jsp:include>
             <%
-            String tsql="select amount,type from bettb";
+            String tsql="select amount,type from eurusd union all "+
+            "select amount,type from eurjpy union all "+
+            "select amount,type from usdjpy union all "+
+           	"select amount,type from usdchf union all "+
+           	"select amount,type from gbpusd";
             String psql="select amount,type,time from company_wallet_history";
             
             String reportsubmit="";
@@ -112,7 +116,11 @@ function automanual()
             		if(timerange.equals(""))
             		{
             			String[] re=reportrange.split(" to ");
-                		tsql="select amount,type from bettb where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59'";
+                		tsql="select amount,type from eurusd where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
+                				"select amount,type from eurjpy where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
+                						"select amount,type from usdjpy where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
+                								"select amount,type from usdchf where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
+                										"select amount,type from gbpusd where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59'";
                 		psql="select amount,type,time from company_wallet_history where time between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59'";
                 		//System.out.println(tsql);
             			
@@ -128,7 +136,11 @@ function automanual()
             			String tim1=tm.getHours()+":"+(tm.getMinutes()-i)+":"+tm.getSeconds();
             			//System.out.println(dat+" "+tim1);
                 		//System.out.println(dat+" "+tim);
-            			tsql="select amount,type from bettb where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
+            			tsql="select amount,type from eurusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+            					"select amount,type from eurjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+            							"select amount,type from usdjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+            									"select amount,type from usdchf where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+            													"select amount,type from gbpusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
                 		psql="select amount,type,time from company_wallet_history where time between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
             		}
             		else if(timerange.equals("1H"))
@@ -142,7 +154,11 @@ function automanual()
             			String tim1=(tm.getHours()-i)+":"+(tm.getMinutes())+":"+tm.getSeconds();
             			//System.out.println(dat+" "+tim1);
                 		//System.out.println(dat+" "+tim);
-                		tsql="select amount,type from bettb where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
+                		tsql="select amount,type from eurusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+                				"select amount,type from eurjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+                						"select amount,type from usdjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+                								"select amount,type from usdchf where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
+                										"select amount,type from gbpusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
                 		psql="select amount,type,time from company_wallet_history where time between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
             		
             		}
@@ -208,56 +224,8 @@ function automanual()
                             <div class="x_panel" style="">
                             	  <div class="x_content">
                     <div class="page-title">
-                     <div class="title_left">
-                            <h3><small>Use this buttons to toggle between Automatic and Manual</small></h3>
-                             <%
-                           
-                            Connection d=DbDriver.getConnection();
-                            PreparedStatement pd=d.prepareStatement("select atype from admintype where sno=?");
-                            pd.setInt(1, 1);
-                        	ResultSet r=pd.executeQuery();
-                        	                         
-                        	if(r.next()){
-                            %>
-                            
-                            <label class="control-label col-md-5 col-sm-3 col-xs-9" for="Current Running">Running Currently:</label><label class="control-label col-md-3 col-sm-3 col-xs-12 green" for="Automatic"><%=r.getString("atype") %></label>
-                       <%} %></div> 
-                          	  <div class="title_right">
-                          	   <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                         
-                              <div class="input-group"> 
-                                	   <form action="admindashboard.jsp" method="post" onsubmit="return automanual()">
-                                	  <button onclick="setAtype()" type="button" name="" id="bu"  value="Automatic" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">Automatic</button>
-                				     <button onclick="setMtype()" type="button" name="" id="buu" value="Manual" class="btn btn-info btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">Manual</button>
-                				<div id="hid"></div>
-                				<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog modal-sm">
-                                        <div class="modal-content">
-
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                                </button>
-                                                <h4 class="modal-title" id="myModalLabel2">Login Credential</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h4>Username</h4>
-                                                <p><input type="text" name="un" id="un" required="required"></p>
-                                                <h4>Password</h4>
-                                                <p><input type="password" name="pw" id="pw" required="required"></p>
-                                              	<p id="aer"></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" name="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" name="submit" class="btn btn-primary">Authenticate</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                				     </form>
-                		</div>
-                		</div>
-                		</div>
+                   
+                          	  
                 		<div class="clearfix"></div>
                 		
                        <%
@@ -380,22 +348,33 @@ function automanual()
                     String data2="[";
                      p=c.prepareStatement(psql);
             		rs=p.executeQuery();
-            		long totalprofit=0;
-            		long callprofit=0;
-            		long putprofit=0;
+            		double totalprofit=0;
+            		double callprofit=0;
+            		double putprofit=0;
+            		double call_10=0;
+            		double put_10=0;
             		while(rs.next())
             		{
             			totalprofit=totalprofit+(long)rs.getDouble("amount");
-            			if(rs.getString("type").trim().equals("Call"))
+            			if(rs.getString("type").trim().equals("call>"))
             			{
             				callprofit=callprofit+(long)rs.getDouble("amount");
             				
             				data1+="[gd("+rs.getDate("time").toString().substring(0, 4)+", "+rs.getDate("time").toString().substring(5, 7)+", "+rs.getDate("time").toString().substring(8)+"), "+rs.getDouble("amount")+"],";
             			}
-            			else if(rs.getString("type").trim().equals("Put"))
+            			else if(rs.getString("type").trim().equals("put>"))
             			{
             				putprofit=putprofit+(long)rs.getDouble("amount");
             				data2+="[gd("+rs.getDate("time").toString().substring(0, 4)+", "+rs.getDate("time").toString().substring(5, 7)+", "+rs.getDate("time").toString().substring(8)+"), "+rs.getDouble("amount")+"],";
+            			}
+            			if(rs.getString("type").trim().equals("call"))
+            			{
+            				call_10=call_10+(long)rs.getDouble("amount");
+            				
+            			}
+            			else if(rs.getString("type").trim().equals("put"))
+            			{
+            				put_10=put_10+(long)rs.getDouble("amount");
             			}
             		}
             		data1=data1.substring(0, data1.length()-1);
@@ -405,7 +384,10 @@ function automanual()
                     System.out.println(data1);
                     System.out.println(data2);
                     %>
-                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                   
+                    </div>
+                    <div class="row tile_count">
+                     <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
                         <div class="left"></div>
                         <div class="right">
                             <span class="count_top"><i class="fa fa-user"></i> Call Profit</span>
@@ -439,6 +421,46 @@ function automanual()
                             	else
                             	{
                             		out.print(putprofit);
+                            	}
+                            	%>
+                            </div>
+                            <span class="count_bottom"></span>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                    <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-user"></i> Call 10% Profit</span>
+                            <div class="count" data-toggle="tooltip" data-placement="top" title="<%=call_10%>">
+                            
+                            <%
+                            	if(call_10>=10000)
+                            	{
+                            		out.print(call_10/1000+"k");
+                            	}
+                            	else
+                            	{
+                            		out.print(call_10);
+                            	}
+                            	%>
+                            </div>
+                            <span class="count_bottom"></span>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+                        <div class="left"></div>
+                        <div class="right">
+                            <span class="count_top"><i class="fa fa-user"></i> Put 10% Profit</span>
+                            <div class="count" data-toggle="tooltip" data-placement="top" title="<%=put_10%>">
+                            
+                            <%
+                            	if(put_10>=10000)
+                            	{
+                            		out.print(put_10/1000+"k");
+                            	}
+                            	else
+                            	{
+                            		out.print(put_10);
                             	}
                             	%>
                             </div>
