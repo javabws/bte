@@ -152,10 +152,10 @@
                                             
 <!--                                                 <div id="gender" class="btn-group" data-toggle="buttons"> -->
 <!--                                                     <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"> -->
-                                                        <input data-parsley-id="6647" data-parsley-multiple="gender" name="gender" value="male" type="radio" id="Male" class="iradio_flat-green"> &nbsp; Male &nbsp;
+                                                        <input data-parsley-id="6647" data-parsley-multiple="gender" name="gender" value="Male" type="radio" id="Male" class="iradio_flat-green"> &nbsp; Male &nbsp;
 <!--                                                     </label><ul id="parsley-id-multiple-gender" class="parsley-errors-list"></ul> -->
 <!--                                                     <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default"> -->
-                                                        <input data-parsley-id="6647" data-parsley-multiple="gender" name="gender" value="female" type="radio" id="Female" class="iradio_flat-green"> Female
+                                                        <input data-parsley-id="6647" data-parsley-multiple="gender" name="gender" value="Female" type="radio" id="Female" class="iradio_flat-green"> Female
 <!--                                                     </label> -->
 <!--                                                 </div> -->
                                             </div>
@@ -190,7 +190,7 @@
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Zip<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input data-parsley-id="7069"  data-parsley-type="number" data-parsley-trigger="keyup" data-parsley-minlength="6" data-parsley-maxlength="6"   id="zip" name="zip" value="<%=userProfileDto.getZip() %>" required="required" class="form-control col-md-7 col-xs-12" type="text"><ul id="parsley-id-7069" class="parsley-errors-list"></ul>
+                                                <input data-parsley-id="7069"  data-parsley-type="number" data-parsley-trigger="keyup"  id="zip" name="zip" value="<%=userProfileDto.getZip() %>" required="required" class="form-control col-md-7 col-xs-12" type="text"><ul id="parsley-id-7069" class="parsley-errors-list"></ul>
                                             </div>
                                         </div>
                                         <div class="form-group">
