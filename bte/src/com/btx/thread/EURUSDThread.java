@@ -324,6 +324,7 @@ public class EURUSDThread implements Runnable {
 					if(totalp==0.0) //---total put amount is 0 then update the user wallet
 					{
 						lostIteration(totalp, fpItr);
+						updateExpiryValue(expiryValue,fcItr);
 					}
 					else  //-- Remaining amount is transfered to company wallet
 					{
@@ -342,6 +343,7 @@ public class EURUSDThread implements Runnable {
 					if(totalc==0.0) //---total call amount is 0 then update the user wallet
 					{
 						lostIteration(totalc, fcItr);
+						updateExpiryValue(expiryValue,fpItr);
 					}
 					else  //-- Remaining amount is transfered to company wallet
 					{
@@ -349,6 +351,11 @@ public class EURUSDThread implements Runnable {
 						CalculateMethods.updateCompanyWallet("call>", totalc, "___");
 					}
 					
+				}
+				else if(fv==expiryValue)
+				{
+					updateExpiryValue(expiryValue,fpItr);
+					updateExpiryValue(expiryValue,fcItr);
 				}
 				totalc=0.0;
 				totalp=0.0;
@@ -379,6 +386,27 @@ public class EURUSDThread implements Runnable {
 					+ "Finalputsize = " + finalput.size());
 		}
 
+		
+		
+		
+	public  void updateExpiryValue(Double expiryValue2, Iterator fcItr2) throws SQLException {
+			
+			
+			while (fcItr2.hasNext())
+			{
+				ca = (CalculateBean) fcItr2.next();
+				st = conn
+						.prepareStatement("update eurusd set expiryvalue=? where userid=?");
+				st.setDouble(1, expiryValue2);
+				st.setLong(2, ca.getUserid());
+				st.executeUpdate();
+				System.out.println("===========update Expiry value========="+ca.getUserid());
+				
+			}
+			
+			
+		}
+		
 		
 		
 		double lost=0.0,bal=0.0,refer_amount=0.0;
