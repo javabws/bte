@@ -41,6 +41,7 @@
 
     <script src="js/jquery.min.js"></script>
     <!--script src="js/nprogress.js"></script-->
+    <script src="js/ServerDate.js"></script>
     
     <script type="text/javascript">
     var forward1=<%=(String)request.getParameter("n")%>
