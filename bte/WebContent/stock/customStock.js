@@ -83,12 +83,13 @@ function getPopupDetails()		//Getting user's profit/lose details from database
 			lost=parseFloat(lost).toFixed(2);
 			var calls=xmldoc.getElementsByTagName("calls")[0].childNodes[0].nodeValue;
 			var puts=xmldoc.getElementsByTagName("puts")[0].childNodes[0].nodeValue;
+			var refund=xmldoc.getElementsByTagName("refund")[0].childNodes[0].nodeValue;
 //			var win = parseInt((xmldoc.getElementsByTagName("win")[0].childNodes[0].nodeValue).trim());
 //			if(win==1)
 //				document.getElementById('pop-det').innerHTML="<h2 class='result_show'>PROFIT</h2><h2 class='result_content'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
 //			else
 //				document.getElementById('pop-det').innerHTML="<h2 class='result_show1'>PROFIT</h2><h2 class='result_content1'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
-			document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Loss</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr></table></h2>";
+			document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Loss</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr><tr><td>Refund</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>"+refund+"</td></tr></table></h2>";
 			div_show();
 		}
 	}
@@ -264,7 +265,7 @@ function clearData()		// Deleting the current deals of  user
 	document.getElementById('openDealsList').innerHTML="<p class='no_result'>No Open Deals</p>";
 }
 function disableButton() {		//Enabling and disabling the call and put button
-	if ((sec>=57)&&(user==true)&&(min==d.getMinutes())) {
+	if ((sec>=57)&&(user==true)&&(min==ServerDate.getUTCMinutes())) {
 		document.getElementById('call').disabled = true;
 		document.getElementById('put').disabled = true;
 	} else
@@ -279,15 +280,13 @@ function disableButton() {		//Enabling and disabling the call and put button
 }
 function displayTime()		//Displaying timer in top left
 {
-	d = new Date();
 	sec = ServerDate.getUTCSeconds();
-	
 	sec3=59-sec;
 	if(counter&&sec==0&&min1==ServerDate.getUTCMinutes()){
 		document.getElementById('counter').innerHTML="";
 		counter=false;}
-	if(sec==30)
-		disableOptionButton();
+//	if(sec==30)
+//		disableOptionButton();
 	if(counter)
 	{
 			if(sec3<10)
@@ -317,7 +316,6 @@ function displayTime()		//Displaying timer in top left
 }
 function digitalClock()		//Displaying timer in bottom right
 {
-	d1 = new Date();
 	sec2 = sec;
 	sec1=59-sec2;
 	if(blink)				//Blinking timer
@@ -384,6 +382,7 @@ function saveData() {		//Storing the deal details in database
 		var type = vall;
 		userEnable=true;
 		counter=true;
+		d = new Date();
 		if(optionButton==true&&deal==true)
 			{
 			deal=false;
@@ -396,21 +395,21 @@ function saveData() {		//Storing the deal details in database
 			optionButton=true;
 			deal=true;
 			openDeal=true;
-			d = new Date();
 			min=ServerDate.getUTCMinutes();
 			sec = ServerDate.getUTCSeconds();
-			min1=min+1;
-//			if(sec>30)
-//			{
-//				user=false;
-//				min+=1;
-//				min1=min+1;
-//			}
-//			else
-//			{
-//				min1=min+1;
-//				user=true;
-//			}
+//			min1=min+1;
+			if(sec>56)
+			{
+				user=false;
+				min+=1;
+				min1=min+1;
+			}
+			else
+			{
+				min1=min+1;
+				
+				user=true;
+			}
 			disableButton();
 			document.getElementById('openDealsList').innerHTML="";
 			document.getElementById('openDealsList').innerHTML="<div id='sam' style='width:100%;height:60px;overflow:auto;'>";
