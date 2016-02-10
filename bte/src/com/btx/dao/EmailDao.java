@@ -21,7 +21,8 @@ public class EmailDao {
 			formData.add("from", "Support Team <support@binarytradeexchange.com>");
 			formData.add("to", email);
 			formData.add("subject", "BinaryTradeExchange - Account Activation - Email Verification");
-			formData.add("html", "<h2>Congratulations on joining Binary Trade Exchange</h2><p>We received your registration to join Binary Trade Exchange-A "
+			formData.add("html", "<img alt=\"BTX\" src=\"http://binarytradexchange.com/assets/images/ad1.png\" width=\"450\" height=\"200\"/>"
+					+ "<h2>Congratulations on joining Binary Trade Exchange</h2><p>We received your registration to join Binary Trade Exchange-A "
 					+ "Revolution of Binary Option. Welcome to the launch of the most "
 					+ "innovative Binary Option platform. It is the first of its kind in the "
 					+ "world, a combination of Binary Option market and the exchange "
