@@ -12,33 +12,20 @@
     pageEncoding="ISO-8859-1"%>
     <%
     
-    
-    UserBean u=new UserBean();
-  
-String btx_payer=request.getParameter("ok_payer_email");
-String btx_tid="";
-btx_tid=request.getParameter("ok_txn_id");
-String btx_currency=request.getParameter("ok_txn_currency");
-String btx_amt=request.getParameter("ok_item_1_gross");
-String btx_sess=request.getParameter("ok_item_1_article");
-
-
-
-	
-	WalletBean w=new WalletBean();
-	w.setAmount(btx_amt);
-	w.setCurrency(btx_currency);
-	w.setTransaction_id(btx_tid);
-	WalletProcess z=new WalletProcess();
-	int i=z.deposit(w,u.getEmail());
-	//System.out.println("Payment Success page: "+i);
-	
-	
-
-
-
-
-
+    String btx_payer=request.getParameter("ok_item_1_name");
+    String btx_tid=request.getParameter("ok_txn_id");
+    String btx_currency=request.getParameter("ok_currency");
+    String btx_amt=request.getParameter("ok_item_1_price");
+    String btx_sess=request.getParameter("ok_item_1_article");
+    	
+    	WalletBean w=new WalletBean();
+    	w.setAmount(btx_amt);
+    	w.setCurrency(btx_currency);
+    	w.setTransaction_id(btx_tid);
+    	WalletProcess z=new WalletProcess();
+    	int i=z.deposit(w,btx_payer);
+    	//System.out.println("Payment Success page: "+i);
+    	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
