@@ -4,9 +4,9 @@
   <welcome-file-list>
     <welcome-file>home</welcome-file>
   </welcome-file-list>
-<!--    <listener> -->
-<!--        <listener-class>com.btx.listener.ThreadExecutor</listener-class> -->
-<!--     </listener> -->
+   <listener>
+       <listener-class>com.btx.calculation.CalculationListener</listener-class>
+    </listener>
   <servlet>
     <servlet-name>Error</servlet-name>
     <jsp-file>/error.jsp</jsp-file>
@@ -14,6 +14,14 @@
   <servlet-mapping>
     <servlet-name>Error</servlet-name>
     <url-pattern>/error</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>WithdrawalReject</servlet-name>
+    <jsp-file>/withdrawalreject.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WithdrawalReject</servlet-name>
+    <url-pattern>/withdrawalreject</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Home</servlet-name>
