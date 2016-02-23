@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="com.btx.driver.DbDriver"%>
@@ -41,9 +42,34 @@
 
     <script src="js/jquery.min.js"></script>
     <!--script src="js/nprogress.js"></script-->
-    <script src="js/ServerDate.js"></script>
     
     <script type="text/javascript">
+  //Users time
+    var timeLocal = new Date();
+    //Servers time
+    var timeServer = new Date('<%=new Date().toGMTString()%>');
+    var serverSec=0;
+    var serverMin=0;
+    //Calculate the difference (returns milliseconds)
+    millDiff = timeLocal - timeServer;
+
+    //initalize the clock on loading of page
+    window.onload=function(){
+      //set the interval so clock ticks
+    	var timeClock=setInterval("TimeTick()",10);
+    }
+
+    //The ticking clock function
+    function TimeTick(){
+      //grab updated time
+      timeLocal = new Date();
+      //add time difference
+      timeLocal.setMilliseconds(timeLocal.getMilliseconds() - millDiff);
+      //display the value
+      serverSec=timeLocal.getSeconds();
+      serverMin=timeLocal.getMinutes();
+      
+    }
     var forward1=<%=(String)request.getParameter("n")%>
     if(forward1==1)
     	{	
