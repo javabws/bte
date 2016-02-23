@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-  <display-name>BTX</display-name>
+  <display-name>Binary Trade Exchange.com</display-name>
   <welcome-file-list>
     <welcome-file>home</welcome-file>
   </welcome-file-list>
@@ -14,6 +14,30 @@
   <servlet-mapping>
     <servlet-name>Error</servlet-name>
     <url-pattern>/error</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Admincontacthistory</servlet-name>
+    <jsp-file>/admincontacthistory.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admincontacthistory</servlet-name>
+    <url-pattern>/admincontacthistory</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>admincontactview</servlet-name>
+    <jsp-file>/admincontactview.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>admincontactview</servlet-name>
+    <url-pattern>/admincontactview</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Unauthorized</servlet-name>
+    <jsp-file>/unauthorized.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Unauthorized</servlet-name>
+    <url-pattern>/unauthorized</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>WithdrawalReject</servlet-name>
