@@ -7,8 +7,18 @@ public class RegisterBean
   private String password="";
   private String email="";
   private String r="";
+  private String referralcode="";
   
-  public String getR() {
+  
+  public String getReferralcode() {
+	return referralcode;
+}
+
+public void setReferralcode(String referralcode) {
+	this.referralcode = referralcode;
+}
+
+public String getR() {
 	return r;
 }
 
