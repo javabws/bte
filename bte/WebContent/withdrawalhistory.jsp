@@ -17,6 +17,12 @@
     	<jsp:forward page="adminexpire"></jsp:forward>
     	<%
     }
+    if(a.getType().equals("Slave"))
+    {
+    	%>
+    	<jsp:forward page="unauthorized"></jsp:forward>
+    	<%
+    }
     %>
 <!DOCTYPE html>
 <html lang="en">
