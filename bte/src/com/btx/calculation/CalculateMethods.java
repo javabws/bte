@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.btx.thread.DbDriver;
+import com.btx.calculation.DbDriver;
 
 public class CalculateMethods {
 	
@@ -59,7 +59,7 @@ public class CalculateMethods {
 			st.executeUpdate();
 			walletamount=0.0;
 			amount=0.0;
-			System.out.println("-------------Wallet updated----------"+email);
+//			System.out.println("-------------Wallet updated----------"+email);
 		}
 		
 		
@@ -79,12 +79,12 @@ public class CalculateMethods {
 			if(rs.next())
 			{
 				companywalletamount=rs.getDouble("amount");
-				System.out.println("Company Wallet Amount BEFORE: "+companywalletamount);
+//				System.out.println("Company Wallet Amount BEFORE: "+companywalletamount);
 			}
 			
-			System.out.println("Company Wallet: "+amount);
+//			System.out.println("Company Wallet: "+amount);
 			companywalletamount=companywalletamount+amount;
-			System.out.println("Company Wallet Amount AFTER: "+companywalletamount);
+//			System.out.println("Company Wallet Amount AFTER: "+companywalletamount);
 			
 			st = conn
 					.prepareStatement("update company_wallet set amount=? where id=?");

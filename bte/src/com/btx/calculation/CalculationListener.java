@@ -21,7 +21,7 @@ public class CalculationListener implements ServletContextListener {
 
 		System.out.println("======Listener Init Method=========");
 		
-		scheduler.startShedule();;
+		scheduler.startShedule();
 		
 	}
 

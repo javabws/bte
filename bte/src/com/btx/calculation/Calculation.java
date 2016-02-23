@@ -55,7 +55,7 @@ public class Calculation {
 	private PreparedStatement st = null;
 	private Connection conn = null;
 	private ResultSet rs;
-	private CalculateBean ca, ca1;
+	private CalculateBean ca;
 	private int ccount = 0;
 	private int percentage=0;
 	private int gcsize = 0, gpsize = 0;
@@ -95,7 +95,7 @@ public class Calculation {
 				st.setString(2, asset_type);
 				rs = st.executeQuery();
 				while (rs.next()) {
-					System.out.println("Entered 1");
+//					System.out.println("-----------Entered While Loop------------"+getAsset_type());
 					ccount = ccount + 1;
 					ca = new CalculateBean();
 					ca.setUserid(rs.getLong("userid"));
@@ -112,7 +112,7 @@ public class Calculation {
 				Double sumput = 0.0;
 				while (itr1.hasNext()) {
 					value = (Double) itr1.next();
-					System.out.println("Value: "+value);
+//					System.out.println("Value: "+value);
 					for (CalculateBean t : ulist) {
 						if (value == t.getValue()) {
 							if (t.getType().equals("call")) {
@@ -142,16 +142,16 @@ public class Calculation {
 					gcsize = gcall.size();
 					gpsize = gput.size();
 
-					System.out.println("Before:callgroup = " + gcall.size()
-							+ " putgroup =" + gput.size());
+//					System.out.println("Before:callgroup = " + gcall.size()
+//							+ " putgroup =" + gput.size());
 					if(gcall!=null)
 					gcall.clear();
 					if(gput!=null)
 					gput.clear();
 					// uvalue.clear();
 					
-					System.out.println("After:callgroup = " + gcall.size()
-							+ " putgroup =" + gput.size());
+//					System.out.println("After:callgroup = " + gcall.size()
+//							+ " putgroup =" + gput.size());
 				}
 
 			}
@@ -159,14 +159,14 @@ public class Calculation {
 			//---getting expiry value in 60 th second
 			public double getExpiryValue() {
 				
-				String url = "http://binarytradexchange.com:8080/feed/getEURUSD.jsp";
+				String url = "http://localhost:8080/feed/get"+asset_type+".jsp";
 				double yvalue=0.0;
 		        try {
 		            String genreJson = IOUtils.toString(new URL(url));
 		            JSONObject genreJsonObject = (JSONObject) JSONValue.parseWithException(genreJson);
 		            JSONObject _source=(JSONObject)genreJsonObject.get("_source");
 		            yvalue=Double.parseDouble((String)_source.get("yvalue"));
-		            System.out.println(yvalue);
+		            System.out.println("Expiry Value: "+yvalue);
 		        } catch (IOException e) {
 		            e.printStackTrace();
 		        } catch (org.json.simple.parser.ParseException e) {
@@ -194,6 +194,9 @@ public class Calculation {
 //				itr2 = fput.iterator();
 				itr3= uvalue.iterator();
 				
+				
+				System.out.println("Before:Finallcallsize = " + finalcall.size()
+						+ "Finalputsize = " + finalput.size());		
 				
 				
 				while (itr3.hasNext()) {
@@ -269,15 +272,14 @@ public class Calculation {
 				if(ulist!=null)
 				ulist.clear();
 				
-				System.out.println("Before:Finallcallsize = " + finalcall.size()
-						+ "Finalputsize = " + finalput.size());
+				
 				if(fcall!=null)
 				fcall.clear();
 				if(fput!=null)
 				fput.clear();
 				;
-				System.out.println("After:Finallcallsize = " + finalcall.size()
-						+ "Finalputsize = " + finalput.size());
+//				System.out.println("After:Finallcallsize = " + finalcall.size()
+//						+ "Finalputsize = " + finalput.size());
 				ExecuteBoolens.setSymbolFalse(getAsset_type());
 			}
 
@@ -295,7 +297,7 @@ public class Calculation {
 					st.setDouble(1, expiryValue2);
 					st.setLong(2, ca.getUserid());
 					st.executeUpdate();
-					System.out.println("===========update Expiry value========="+ca.getUserid());
+//					System.out.println("===========update Expiry value========="+ca.getUserid());
 					
 				}
 				
@@ -310,12 +312,12 @@ public class Calculation {
 			String refer="";
 			private double winIteration(Double to,@SuppressWarnings("rawtypes") Iterator itr,String type) throws SQLException
 			{
-				System.out.println("Win Iteration Method");
+//				System.out.println("Win Iteration Method");
 				total=to;
 				
 				while (itr.hasNext() && total!=0.0) 
 				{
-					System.out.println("Total:"+total);
+//					System.out.println("Total:"+total);
 					ca=(CalculateBean)itr.next();
 					if(total==ca.getAmount())
 					{
@@ -327,40 +329,38 @@ public class Calculation {
 						//updateLost(ca.getUserid(),lost);
 						CalculateMethods.updateWallet(wtype, ca.getAmount(), earned, ca.getUser());
 						CalculateMethods.updateCompanyWallet(type, company, ca.getUser());
-						System.out.println("Total==Amount");
+//						System.out.println("Total==Amount");
 					}
 					else if(total>ca.getAmount())
 					{
 						earned=(((double)ca.getAmount()/100)*90);
 						company=(((double)ca.getAmount()/100)*10);
 						total=(total-ca.getAmount());
-						
 						updateEarned(ca.getUserid(),earned,wtype);
 						//updateLost(ca.getUserid(),lost);
 						CalculateMethods.updateWallet(wtype, ca.getAmount(), earned, ca.getUser());
 						CalculateMethods.updateCompanyWallet(type, company, ca.getUser());
-						System.out.println("Total>Amount");
+//						System.out.println("Total>Amount");
 					}
 					else if(total<ca.getAmount())
 					{
 						earned=(((double)total/100)*90);
 						company=(((double)total/100)*10);
 						
-						
-						updateEarned(ca1.getUserid(),earned,"Partial("+total+")");
+						updateEarned(ca.getUserid(),earned,"Partial-"+total);
 						//updateLost(ca.getUserid(),lost);
 						CalculateMethods.updateWallet(wtype, ca.getAmount(), earned, ca.getUser());
 						CalculateMethods.updateCompanyWallet(type, company, ca.getUser());
-						System.out.println("Total<Amount");
+//						System.out.println("Total<Amount");
 						total=(total-total);
 					}
 					
 					refer=CalculateMethods.getReferrer(ca.getUser());
-					System.out.println("Referrer: "+refer);
+//					System.out.println("Referrer: "+refer);
 					if(!refer.equals(""))
 					{
 						refer_amount=((double)ca.getAmount()/100);
-						System.out.println("Refer Amount: "+(-refer_amount));
+//						System.out.println("Refer Amount: "+(-refer_amount));
 						CalculateMethods.updateCompanyWallet("Referral", (-refer_amount), ca.getUser());
 						CalculateMethods.updateWallet("refer", 0.0, refer_amount, refer);
 					}
@@ -408,20 +408,20 @@ public class Calculation {
 					while(lositr.hasNext())
 					{
 						ca=(CalculateBean)lositr.next();
-						System.out.println("Balance: "+total);
+//						System.out.println("Balance: "+total);
 						
 						
 							
 							updateLost(ca.getUserid(), ca.getAmount());
 //							CalculateMethods.updateWallet(ltype, ca.getAmount(), ca.getUser());
-							System.out.println("Total==0");
+//							System.out.println("Total==0");
 						
 							refer=CalculateMethods.getReferrer(ca.getUser());
-							System.out.println("Referrer: "+refer);
+//							System.out.println("Referrer: "+refer);
 							if(!refer.equals(""))
 							{
 								refer_amount=((double)ca.getAmount()/100);
-								System.out.println("Refer Amount: "+(-refer_amount));
+//								System.out.println("Refer Amount: "+(-refer_amount));
 								CalculateMethods.updateCompanyWallet("Referral", (-refer_amount), ca.getUser());
 								CalculateMethods.updateWallet("refer", 0.0, refer_amount, refer);
 							}
@@ -457,9 +457,10 @@ public class Calculation {
 
 			synchronized public  void updateLost(long userid, double lost) throws SQLException {
 				st = conn
-						.prepareStatement("update trading set lost=?,gtype='lost' where userid=?");
+						.prepareStatement("update trading set lost=?,gtype=? where userid=?");
 				st.setDouble(1, lost);
-				st.setLong(2, userid);
+				st.setString(2, ltype);
+				st.setLong(3, userid);
 				st.executeUpdate();
 			}
 
@@ -468,10 +469,12 @@ public class Calculation {
 			
 			synchronized public  void updateEarned(long userid, double earned,String type) throws SQLException {
 				st = conn
-						.prepareStatement("update trading set earned=?,gtype='"+type+"' where userid=?");
+						.prepareStatement("update trading set earned=?,gtype=? where userid=?");
 				st.setDouble(1, earned);
-				st.setLong(2, userid);
-				st.executeUpdate();
+				st.setString(2, type);
+				st.setLong(3, userid);
+				int m=st.executeUpdate();
+
 			}
 
 			synchronized public void updateExpiryValue(long userid,double expiry) throws SQLException
@@ -485,7 +488,8 @@ public class Calculation {
 			synchronized public void updateRefundAmount() throws SQLException
 			{
 				st = conn
-						.prepareStatement("select * from trading where gtype='N'");
+						.prepareStatement("select * from trading where gtype='N' and asset=?");
+				st.setString(1, asset_type);
 				rs=st.executeQuery();
 				while(rs.next())
 				{
