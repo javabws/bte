@@ -1,3 +1,4 @@
+<%@page import="com.btx.dao.EmailDao"%>
 <%@page import="com.sun.jersey.api.client.ClientHandlerException"%>
 <%@page import="java.net.ConnectException"%>
 <%@page import="org.apache.commons.lang3.RandomStringUtils"%>
@@ -17,7 +18,7 @@ out.println("sending.....");%><br><%
 
 try{
 
-ClientResponse res=EmailProcess.SendVerificationCode(RandomStringUtils.random(20, true, true), "sangeethkumar@bluewhalesolutions.com", "http://google.com");
+ClientResponse res=EmailDao.SendVerificationCode(RandomStringUtils.random(20, true, true), "sangeethkumarm@yahoo.com", "http://google.com");
 out.println("--------------Codes-----------------");%><br><%
 out.println("Status code: "+res.getClientResponseStatus().getStatusCode());%><br><%
 out.println("Status INT: "+res.getStatus());%><br><%
