@@ -60,6 +60,25 @@ function isNumber(evt) {		//checking whether the input is number or not
 	}
 	return true;
 }
+function sessioncheck()		// Getting amount from user wallet
+{
+	var urls = "sessioncheck.jsp";
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4) {
+			var usersession = xmlhttp.responseText;
+			usersession=usersession.trim();
+			if(usersession=="false")
+				window.location="expire";
+		}
+	}
+	xmlhttp.open("POST", urls, false);
+	xmlhttp.send();
+}	
 function getPopupDetails()		//Getting user's profit/lose details from database
 {
 	var user=document.getElementById('email').value;
@@ -74,23 +93,32 @@ function getPopupDetails()		//Getting user's profit/lose details from database
 			var i;
 			var profValue=0.0;
 			var xmldoc = xmlhttp.responseXML;
-			var amount = parseInt(xmldoc.getElementsByTagName("amount")[0].childNodes[0].nodeValue);
-			var totalAmount = xmldoc.getElementsByTagName("totalAmount")[0].childNodes[0].nodeValue;
-			totalAmount=parseFloat(totalAmount).toFixed(2);
-			var profit = xmldoc.getElementsByTagName("profit")[0].childNodes[0].nodeValue;
-			profit=parseFloat(profit).toFixed(2);
-			var lost = xmldoc.getElementsByTagName("lost")[0].childNodes[0].nodeValue;
-			lost=parseFloat(lost).toFixed(2);
-			var calls=xmldoc.getElementsByTagName("calls")[0].childNodes[0].nodeValue;
-			var puts=xmldoc.getElementsByTagName("puts")[0].childNodes[0].nodeValue;
-			var refund=xmldoc.getElementsByTagName("refund")[0].childNodes[0].nodeValue;
-//			var win = parseInt((xmldoc.getElementsByTagName("win")[0].childNodes[0].nodeValue).trim());
-//			if(win==1)
+			var calc=xmldoc.getElementsByTagName("boolean")[0].childNodes[0].nodeValue;
+			calc=calc.trim();
+			if(calc=="true")
+			{
+				var amount = parseInt(xmldoc.getElementsByTagName("amount")[0].childNodes[0].nodeValue);
+				var totalAmount = xmldoc.getElementsByTagName("totalAmount")[0].childNodes[0].nodeValue;
+				totalAmount=parseFloat(totalAmount).toFixed(2);
+				var profit = xmldoc.getElementsByTagName("profit")[0].childNodes[0].nodeValue;
+				profit=parseFloat(profit).toFixed(2);
+				var lost = xmldoc.getElementsByTagName("lost")[0].childNodes[0].nodeValue;
+				lost=parseFloat(lost).toFixed(2);
+				var calls=xmldoc.getElementsByTagName("calls")[0].childNodes[0].nodeValue;
+				var puts=xmldoc.getElementsByTagName("puts")[0].childNodes[0].nodeValue;
+				var refund=xmldoc.getElementsByTagName("refund")[0].childNodes[0].nodeValue;
+//				var win = parseInt((xmldoc.getElementsByTagName("win")[0].childNodes[0].nodeValue).trim());
+//				if(win==1)
 //				document.getElementById('pop-det').innerHTML="<h2 class='result_show'>PROFIT</h2><h2 class='result_content'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
-//			else
+//				else
 //				document.getElementById('pop-det').innerHTML="<h2 class='result_show1'>PROFIT</h2><h2 class='result_content1'><i class='fa fa-dollar'></i>"+totalAmount+"</h2>";
-			document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Loss</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr><tr><td>Refund</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>"+refund+"</td></tr></table></h2>";
-			div_show();
+				document.getElementById('pop-det').innerHTML="<h2 class='result_show'><table><tr><td>Call/Put</td><td>&nbsp;&nbsp;&nbsp;-</td><td>"+calls+"/"+puts+"</td></tr><tr><td>Amount</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+amount+"</td></tr><tr><td>Profit</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+profit+"</td></tr><tr><td>Loss</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>&nbsp;"+lost+"</td></tr><tr><td>Refund</td><td>&nbsp;&nbsp;&nbsp;-&nbsp;</td><td><i class='fa fa-dollar'></i>"+refund+"</td></tr></table></h2>";
+				div_show();
+			}
+			else
+			{
+				getPopupDetails();
+			}
 		}
 	}
 	xmlhttp.open("POST", urls, false);
@@ -243,29 +271,8 @@ function disableOptionButton()		// Clearing the clear button and timer in top le
 {
 	document.getElementById('counter').innerHTML="";
 }
-function clearData()		// Deleting the current deals of  user
-{
-	userName=document.getElementById('email').value;
-	if (window.XMLHttpRequest) {
-		xmlhttp = new XMLHttpRequest();
-	} else {
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.open("POST", "deletedata.jsp", true);
-	xmlhttp.setRequestHeader("Content-type",
-	"application/x-www-form-urlencoded");
-	xmlhttp.send("sym="+sym);
-	openDeal=false;
-	optionButton=false;
-	userEnable=false;
-	user=false;
-	counter=false;
-	disableOptionButton();
-	getBalanceAmount();
-	document.getElementById('openDealsList').innerHTML="<p class='no_result'>No Open Deals</p>";
-}
 function disableButton() {		//Enabling and disabling the call and put button
-	if ((sec>=57)&&(user==true)&&(min==ServerDate.getUTCMinutes())) {
+	if ((serverSec>=57)&&(user==true)&&(min==serverMin)) {
 		document.getElementById('call').disabled = true;
 		document.getElementById('put').disabled = true;
 	} else
@@ -273,20 +280,17 @@ function disableButton() {		//Enabling and disabling the call and put button
 		document.getElementById('call').disabled = false;
 		document.getElementById('put').disabled = false;
 	}
-	if(sec==56&&userEnable==true){
+	if(serverSec==56&&userEnable==true){
 		user=true;
 	}
-	setTimeout(disableButton, 1000);
+//	setTimeout(disableButton, 1000);
 }
 function displayTime()		//Displaying timer in top left
 {
-	sec = ServerDate.getUTCSeconds();
-	sec3=59-sec;
-	if(counter&&sec==0&&min1==ServerDate.getUTCMinutes()){
+	sec3=59-serverSec;
+	if(counter&&serverSec==0&&min1==serverMin){
 		document.getElementById('counter').innerHTML="";
 		counter=false;}
-//	if(sec==30)
-//		disableOptionButton();
 	if(counter)
 	{
 			if(sec3<10)
@@ -297,29 +301,34 @@ function displayTime()		//Displaying timer in top left
 				document.getElementById('counter').innerHTML="<span class='main-profitg'>"+"  "+"<i class='fa fa-clock-o'></i> 00:"+sec3+"</span>";
 			}
 	}
-	if(sec==2&&ServerDate.getUTCMinutes()==min1)
+
+	if(serverSec==2&&serverMin==min1)
 	{
 		openDeal=false;
 		document.getElementById('openDealsList').innerHTML="<p class='no_result'>No Open Deals</p>";
-		getBalanceAmount();
 		chart.yAxis[0].removePlotLine('dealLine');
 		totalAmount=parseInt(0);
 		totalProfit=parseFloat(0);
 		no_of_opendeals=parseInt(0);
 		deal=true;
 		optionButton=false;
+		getBalanceAmount();
 		if(userEnable==true)
+			{
 			getPopupDetails();
+			userEnable=false;
+			}
 		displayDeals();
 	}
 //	setTimeout(displayTime, 1000);
 }
+var clockInterval=100;
 function digitalClock()		//Displaying timer in bottom right
 {
-	sec2 = sec;
-	sec1=59-sec2;
+	sec1=59-serverSec;
 	if(blink)				//Blinking timer
 	{
+		
 		if(sec1<=10)
 		{
 			if(sec1==10)
@@ -327,8 +336,10 @@ function digitalClock()		//Displaying timer in bottom right
 			else
 				document.getElementById('displayTime').innerHTML="<div class='main-profit'>"+"  "+"<i class='fa fa-clock-o'></i> 00:0"+sec1+"</div>";
 			blink=false;
+			clockInterval=500;
 		}
 		else{
+			clockInterval=100;
 			document.getElementById('displayTime').innerHTML="<div class='main-profit'>"+"  "+"<i class='fa fa-clock-o'></i> 00:"+sec1+"</div>";
 		}
 	}
@@ -338,7 +349,7 @@ function digitalClock()		//Displaying timer in bottom right
 		blink=true;
 	}
 
-	setTimeout(digitalClock, 500);
+	setTimeout(digitalClock, clockInterval);
 }
 function callFun() {
 	var cuaa =0;
@@ -395,22 +406,22 @@ function saveData() {		//Storing the deal details in database
 			optionButton=true;
 			deal=true;
 			openDeal=true;
-			min=ServerDate.getUTCMinutes();
-			sec = ServerDate.getUTCSeconds();
-//			min1=min+1;
-			if(sec>56)
-			{
-				user=false;
-				min+=1;
-				min1=min+1;
-			}
-			else
-			{
-				min1=min+1;
-				
-				user=true;
-			}
-			disableButton();
+			min=serverMin;
+			sec = serverSec;
+			min1=min+1;
+//			if(sec>56)
+//			{
+//				user=false;
+//				min+=1;
+//				min1=min+1;
+//			}
+//			else
+//			{
+//				min1=min+1;
+//				
+//				user=true;
+//			}
+			user=true;
 			document.getElementById('openDealsList').innerHTML="";
 			document.getElementById('openDealsList').innerHTML="<div id='sam' style='width:100%;height:60px;overflow:auto;'>";
 		}
@@ -542,14 +553,17 @@ function loadChart(symbol)
 								var hasPlotLine =true;
 								if(chartEnable==false){
 									chartEnable=true;
+									TimeTick();
 									displayDeals();
 									displayTime();
 									digitalClock();
+									disableButton();
 									setInterval(function () {
 										displayTime();
 										var x = (new Date()).getTime();
 										returnValue(chart,x,sym);
-										
+										disableButton();
+										sessioncheck();
 									}, 1000);
 								}
 							}
