@@ -64,7 +64,7 @@
                                 <%
                                 
                                 Connection c=DbDriver.getConnection();
-                                PreparedStatement p=c.prepareStatement("select * from chronical_trading");
+                                PreparedStatement p=c.prepareStatement("select * from trading");
                                 ResultSet r=p.executeQuery();
                                
                                 %>
