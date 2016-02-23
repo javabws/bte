@@ -1,3 +1,4 @@
+<%@page import="com.btx.Bean.AdminBean"%>
 <%@page import="com.btx.driver.DbDriver"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.ResultSet"%>
@@ -7,6 +8,16 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="w" class="com.btx.Bean.WalletBean"></jsp:useBean>
+<%
+AdminBean bean = null;
+bean = (AdminBean) session.getAttribute("adminBean");
+if(bean.getType().equals("Slave"))
+{
+	%>
+	<jsp:forward page="unauthorized"></jsp:forward>
+	<%
+}
+%>
 <HTML>
 <HEAD>
 <TITLE>Result</TITLE>
