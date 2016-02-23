@@ -51,13 +51,8 @@
                                 <%
                                 UserBean u=(UserBean)session.getAttribute("userBean");
                                 Connection c=DbDriver.getConnection();
-                              PreparedStatement p=c.prepareStatement("select * from eurusd where user=? union all select * from usdjpy where user=? union all select * from gbpusd where user=? union all select * from eurjpy where user=? union all select * from usdchf where user=? order by currenttime desc limit 100");
-
+                                PreparedStatement p=c.prepareStatement("select * from trading where user=? order by userid desc limit 100");
                                 p.setString(1, u.getEmail());
-                                p.setString(2, u.getEmail());
-                                p.setString(3, u.getEmail());
-                                p.setString(4, u.getEmail());
-                                p.setString(5, u.getEmail());
                                 ResultSet r=p.executeQuery();
                                
                                 %>
