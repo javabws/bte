@@ -6,7 +6,16 @@
 <jsp:setProperty property="*" name="a" />
 
 <%
-	String r = (String) request.getParameter("r");
+
+String r = (String) request.getParameter("r");
+Cookie cookie=new Cookie("refferalCode",r);
+cookie.setMaxAge(-1);
+response.addCookie(cookie);
+
+%>
+<jsp:forward page="home"></jsp:forward>
+<%
+	
 
 	String submit = (String) request.getParameter("submit");
 	
