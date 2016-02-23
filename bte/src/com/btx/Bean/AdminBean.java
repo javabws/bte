@@ -5,8 +5,17 @@ public class AdminBean
   private String usernme;
   private String password;
   private String name;
+  private String type;
   
-  public String getUsernme()
+  public String getType() {
+	return type;
+}
+
+public void setType(String type) {
+	this.type = type;
+}
+
+public String getUsernme()
   {
     return this.usernme;
   }
