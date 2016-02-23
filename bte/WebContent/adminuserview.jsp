@@ -1,3 +1,5 @@
+<%@page import="com.btx.dto.AdminUserViewDto"%>
+<%@page import="com.btx.controller.AdminUserViewController"%>
 <%@page import="com.btx.Bean.AdminBean"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -64,65 +66,149 @@
                             <div class="x_panel">
                                 <div class="x_title">
                                  <h3>
-                   Users
+                   User
                     
                 </h3>
                                     
                                      <%
+                                     String email=(String)request.getParameter("em");
+                                AdminUserViewController controller=new AdminUserViewController();
+                                     AdminUserViewDto dto=controller.getOperationsData(email);
                                 
-                                Connection c=DbDriver.getConnection();
-                                PreparedStatement p=c.prepareStatement("select * from user_details");
-                               
-                                ResultSet r=p.executeQuery();
-                               int count=1;
                                 %>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                <form action="adminuser" method="post">
-                                    <table id="example" class="table table-striped responsive-utilities jambo_table">
-                                        <thead>
-                                            <tr class="headings">
-                                                
-                                                <th>SI NO </th>
-                                                <th>Email Id</th>
-                                                <th>Created date</th>
-                                                <th>Phone no</th>
-                                                <th>Gender </th>
-                                                <th>Country </th>
-                                                <th>Status </th>
-                                               <th class=" no-link last"><span class="nobr">Option</span>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                       
-                                        <%while(r.next()) {%>
-                                            <tr class="even pointer">
-                                                
-                                                <td class=" "><%=count %></td>
-                                                <td class=" "><%=r.getString("email") %></td>
-                                                <td class=" "><%=r.getDate("time")+" "+r.getTime("time") %></td>
-                                                <td class=" "><%=r.getLong("phonenumber") %></td>
-                                                <td class="a-right a-right "><%=r.getString("gender") %></td>
-                                                <td class=" "><%=r.getString("country") %></td>
-                                                <td class=" "><%
-                                                String sta=r.getString("status");
-                                                if(sta.equals("Active")){ %>
-                                                <button class="btn btn-round btn-success btn-xs" id="status" name="submit" value="<%=r.getString("email") %>" ><i class="fa fa-check-circle"   ></i></button>
-                                                <%}if(sta.equals("Inactive")) {%>
-                                                <button class="btn btn-round btn-danger btn-xs" id="status" name="submit" value="<%=r.getString("email") %>"  ><i class="fa fa-close"   ></i></button>
-                                                <%} %>
-                                                </td>
-                                                <td class=" last"><a href="adminuserview?em=<%=r.getString("email") %>">View</a>
-                                           </tr>
-                                           <%count++;} %>
-                                           
-                                          
-                                        </tbody>
-
-                                    </table>
-                                    </form>
+                                <div class="form-horizontal form-label-left" >
+                               <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Email :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getEmail() %> </label>
+                                            </div>
+                                </div>
+                                <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Password :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getPassword() %> </label>
+                                            </div>
+                                </div>
+                               	 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">First Name :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getFirstname() %> </label>
+                                            </div>
+                                </div>
+                                <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Last Name :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getLastname() %> </label>
+                                            </div>
+                                </div>
+                                <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Gender :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getGender() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Date of Birth :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getDob() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Country :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getCountry() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">City :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getCity() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Zip :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getZip() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Address :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getAddress() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Country Code :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getCountrycode() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Phone Number :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getPhoneno() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Currency :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getCurrency() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Timezone :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getTimezone() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Default Language :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getDefaultlanguage() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Referral Code :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getReferralcode() %> </label>
+                                            </div>
+                                </div>
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Time :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label"><%=dto.getTime() %> </label>
+                                            </div>
+                                </div>	
+                                 <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ID Proof :
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="img-preview preview-lg col-9 pull-left"
+										style="width: 240px; height: 320px;">
+										<img src="getAdminViewImage.jsp?id=<%=dto.getEmail()%>">
+									</div>
+                                            </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -141,6 +227,7 @@
                 <!-- /page content -->
             </div>
 
+        </div>
         </div>
 
        
