@@ -117,10 +117,14 @@ function pro()
                                
                                 <%
                                     Connection c=DbDriver.getConnection();
-                                    PreparedStatement p=c.prepareStatement("select * from profit where id=?");
+                                    PreparedStatement p=null;
+                                    ResultSet r=null;
+                                    if(a.getType().equals("Master"))
+                                    {
+                                    p=c.prepareStatement("select * from profit where id=?");
                                     p.setInt(1, 1);
                                   
-                                    ResultSet r=p.executeQuery();
+                                    r=p.executeQuery();
                                     if(r.next()){
                                     	
                                    
@@ -179,6 +183,7 @@ function pro()
                                     p.setInt(1, 1);
                                   
                                     r=p.executeQuery();
+                                    
                                     if(r.next()){
                                     	
                                    
@@ -193,7 +198,8 @@ function pro()
                                         <label class="control-label col-md-9 col-sm-3 col-xs-12"><h4 class="count green">Amount:  <%=r.getDouble("amount") %></h4> </label>
                                         
                                         </div>
-                                        <%}
+                                         </div>
+                                        <%}}
                                         
                                     String sql="select * from company_wallet_history";
                                     String reportsubmit="";
@@ -201,11 +207,49 @@ function pro()
                                     if(reportsubmit!=null)
                                     {
                                     	String reportrange=(String)request.getParameter("reportRange");
+                                    	String criteria=(String)request.getParameter("criteria");
                                     	if(reportsubmit.equals("Submit"))
                                     	{
                                     		String[] re=reportrange.split(" to ");
-                                    		sql="select * from company_wallet_history where time between '"+re[0]+" 01:00:00' and '"+re[1]+" 23:59:00'";
-                                    		System.out.println(sql);
+                                    		sql="select * from company_wallet_history where";
+                                    		
+                                    		if(criteria!=null)
+                                    		{
+                                    			if(criteria.equals("10%"))
+                                    			{
+                                    				sql+=" type='call' or type='put' and ";
+                                    			}
+                                    			else if(criteria.equals("call"))
+                                    			{
+                                    				sql+=" type='call' and ";
+                                    			}
+                                    			else if(criteria.equals("put"))
+                                    			{
+                                    				sql+=" type='put' and ";
+                                    			}
+                                    			else if(criteria.equals("referral"))
+                                    			{
+                                    				sql+=" type='referral' and ";
+                                    			}
+                                    			else if(criteria.equals("losers"))
+                                    			{
+                                    				sql+=" type='call>' or type='put>' and ";
+                                    			}
+                                    		}
+                                    		else if(a.getType().equals("Slave"))
+                                        	{
+                                        		sql+=" type='call' or type='put' or type='referral' and ";
+                                        	}
+                                    		
+                                        	sql+=" time between '"+re[0]+" 01:00:00' and '"+re[1]+" 23:59:00'";
+                                        	System.out.println(sql);
+                                    	}
+                                    }
+                                    else
+                                    {
+                                    	if(a.getType().equals("Slave"))
+                                    	{
+                                    		sql+=" where type='call' or type='put' or type='referral'";
                                     	}
                                     }
                                     
@@ -215,7 +259,7 @@ function pro()
           
                                         
                                         %>
-                                </div>
+                               
                                
                                 
                                 <div class="x_content">
@@ -226,11 +270,23 @@ function pro()
                                      </div>
                                      
                                      <div class="well" style="overflow: auto">
-                                     <form action="">
-                                     <div class="col-md-4 form-group">
-                                    <%--<input type="text" class="form-control" data-inputmask="'mask': '99/99/9999'"> --%> 
-                                     </div>
-                                     <div class="col-md-4">
+                                     <form action="adminprofit" method="post">
+                                    <div class="col-md-3">
+                                            <h4 >Select Criteria:</h4>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select data-parsley-id="0497" id="heard" class="form-control"  name="criteria">
+                                                    <option value="">Select Criteria</option>
+                                                    <option value="10%">10%</option>
+                                                    <option value="call">Call</option>
+                                                    <option value="put">Put</option>
+                                                    <option value="referral">Referral</option>
+                                                    <%if(a.getType().equals("Master")){ %>
+                                                    <option value="losers">Losers Money</option>
+                                                   	<% }%>
+                                                </select>
+                                        </div>
+                                     <div class="col-md-5">
                                      <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                                                 <span>December 30, 2014 - January 28, 2015</span> 
@@ -238,7 +294,7 @@ function pro()
                                                 <input type="hidden" name="reportRange" value="">
                                             </div>
                                      </div>
-                                      <div class="col-md-4">
+                                      <div class="col-md-1">
                                              <button type="submit" name="reportsubmit" class="btn btn-success" data-dismiss="modal" value="Submit">Submit</button>
                                         </div>
                                         </form>
