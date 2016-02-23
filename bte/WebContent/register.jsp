@@ -13,7 +13,15 @@
 // 	String n="1";
 
 	RegisterUserDao registerUserDao=new RegisterUserDao();
-	boolean re=registerUserDao.registerUser(r, serverpath,false,"","");
+	boolean re=false;
+	if(r.getReferralcode().equals("") || r.getReferralcode()==null)
+	{	
+		re=registerUserDao.registerUser(r, serverpath,false,"","");
+	}
+	else
+	{
+		re=registerUserDao.registerUser(r, serverpath, true, r.getReferralcode(), "");
+	}
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
