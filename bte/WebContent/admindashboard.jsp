@@ -20,6 +20,14 @@
     	<jsp:forward page="adminexpire"></jsp:forward>
     	<%
     }
+    
+    if(a.getType().equals("Slave"))
+    {
+    	%>
+    	<jsp:forward page="unauthorized"></jsp:forward>
+    	<%
+    }
+    
    
 if(request.getParameter("submit")!=null)
 {
@@ -98,11 +106,7 @@ function automanual()
 
            <jsp:include page="menua.jsp"></jsp:include>
             <%
-            String tsql="select amount,type from eurusd union all "+
-            "select amount,type from eurjpy union all "+
-            "select amount,type from usdjpy union all "+
-           	"select amount,type from usdchf union all "+
-           	"select amount,type from gbpusd";
+            String tsql="select amount,type from trading";
             String psql="select amount,type,time from company_wallet_history";
             
             String reportsubmit="";
@@ -116,11 +120,7 @@ function automanual()
             		if(timerange.equals(""))
             		{
             			String[] re=reportrange.split(" to ");
-                		tsql="select amount,type from eurusd where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
-                				"select amount,type from eurjpy where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
-                						"select amount,type from usdjpy where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
-                								"select amount,type from usdchf where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59' union all "+
-                										"select amount,type from gbpusd where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59'";
+                		tsql="select amount,type from trading where currenttime between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59'";
                 		psql="select amount,type,time from company_wallet_history where time between '"+re[0]+" 00:00:00' and '"+re[1]+" 23:59:59'";
                 		//System.out.println(tsql);
             			
@@ -136,11 +136,7 @@ function automanual()
             			String tim1=tm.getHours()+":"+(tm.getMinutes()-i)+":"+tm.getSeconds();
             			//System.out.println(dat+" "+tim1);
                 		//System.out.println(dat+" "+tim);
-            			tsql="select amount,type from eurusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-            					"select amount,type from eurjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-            							"select amount,type from usdjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-            									"select amount,type from usdchf where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-            													"select amount,type from gbpusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
+            			tsql="select amount,type from trading where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
                 		psql="select amount,type,time from company_wallet_history where time between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
             		}
             		else if(timerange.equals("1H"))
@@ -154,11 +150,7 @@ function automanual()
             			String tim1=(tm.getHours()-i)+":"+(tm.getMinutes())+":"+tm.getSeconds();
             			//System.out.println(dat+" "+tim1);
                 		//System.out.println(dat+" "+tim);
-                		tsql="select amount,type from eurusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-                				"select amount,type from eurjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-                						"select amount,type from usdjpy where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-                								"select amount,type from usdchf where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"' union all "+
-                										"select amount,type from gbpusd where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
+                		tsql="select amount,type from trading where currenttime between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
                 		psql="select amount,type,time from company_wallet_history where time between '"+dat+" "+tim1+"' and '"+dat+" "+tim+"'";
             		
             		}
