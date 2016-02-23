@@ -10,6 +10,26 @@ if(session.getAttribute("userBean")!=null)
 	</jsp:forward>
 	<%
 }
+
+String referral_code="";
+
+Cookie cookie = null;
+Cookie[] cookies = null;
+// Get an array of Cookies associated with this domain
+cookies = request.getCookies();
+if( cookies != null ){
+   for (int i = 0; i < cookies.length; i++){
+      cookie = cookies[i];
+      if (cookie.getName().equals("refferalCode")) {
+         referral_code=(String)cookie.getValue();
+      }
+   }
+}
+else{
+   System.out.println("<h2>No cookies founds</h2>");
+}
+
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -175,6 +195,9 @@ else if(val.trim()=="LOGEDIN"){
                         <div>
                         	 <input type="email" autocomplete="off" class="form-control" pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" id="inputEmail" placeholder="Email" required="" name="email" onkeyup="emailCheck()" >
                         	 
+                        </div>
+                        <div>
+                        	<input type="text" class="form-control" placeholder="Referral Code (Optional)" name="referralcode" value="<%=referral_code%>">
                         </div>
                         <div class="checkbxcol">
                         <input type="checkbox" class="checkbx" required="required"/> I Accept <a href="tch" class="term-cond">Terms and Condition</a>
