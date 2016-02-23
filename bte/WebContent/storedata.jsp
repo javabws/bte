@@ -1,18 +1,19 @@
-<%@page import="com.btx.logic.GameSchedulerFactory"%>
-<%@page import="com.btx.logic.ExecuteBoolens"%>
+
+<%@page import="com.btx.calculation.ExecuteBoolens"%>
 <%@page import="com.btx.Bean.UserBean"%>
 <%@page import="com.btx.driver.DbDriver"%>
 <%@page import="java.util.Date"%>
-<%@page import="com.btx.Process.UTCTime" %>
-<%@ page import="java.io.*,java.sql.*" %>
-<%@ page import ="javax.sql.*" %>
+<%@page import="com.btx.Process.UTCTime"%>
+<%@ page import="java.io.*,java.sql.*"%>
+<%@ page import="javax.sql.*"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
- 
+
 <%
 
 UTCTime utc=new UTCTime();
 UserBean u = null;
 u = (UserBean) session.getAttribute("userBean");
+if(u!=null){
 String user=(String)u.getEmail();
 String sym=(String)request.getParameter("sym");
 String amount=(String)request.getParameter("amount");
@@ -22,14 +23,12 @@ Integer ut=Integer.parseInt(request.getParameter("uhour"));
 //set true in ExecuteBoolens class  if any user plays in particular assets
 if(!ExecuteBoolens.isTrue(sym))
 {
-// 	ExecuteBoolens.setSymbolTrue(sym);
-	GameSchedulerFactory.startAssets(sym); 
+	ExecuteBoolens.setSymbolTrue(sym);
+// 	GameSchedulerFactory.startAssets(sym);
 	System.out.println("Storedata Page: "+ExecuteBoolens.isTrue(sym));
 }
 
 String udate="",utime="";
-if(ut>11)
-	ut-=12;
 if(ut<10)
 	utime="0"+ut.toString();
 else
@@ -56,31 +55,31 @@ double value=Double.parseDouble(request.getParameter("value"));
 PreparedStatement st=null;
 Connection conn=DbDriver.getConnection();
 System.out.println(sym);
-st=conn.prepareStatement("Insert into "+sym.toLowerCase()+"(user,amount,type,year,month,date,day,hour,minute,second,status,earned,gtype,value,expiryvalue,currenttime,utime,udate,lost,asset) value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+st=conn.prepareStatement("Insert into trading (user,amount,type,earned,gtype,value,expiryvalue,currenttime,utime,udate,lost,asset,session_id,status) value(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 Date d=new Date();
 st.setString(1, user);
 st.setInt(2, Integer.parseInt(amount));
 st.setString(3, type);
-st.setInt(4, utc.getYear());
-st.setInt(5, utc.getCurrentTimeStamp().getMonth());
-st.setInt(6, utc.getDate());
-st.setString(7, utc.getDay());
-st.setInt(8, utc.getHour());
-st.setInt(9, utc.getMinute());
-st.setInt(10, utc.getSecond());
-st.setString(11, "ACTIVE");
-st.setDouble(12, 0.0);
-st.setString(13, "N");
-st.setDouble(14, value);
-st.setDouble(15, 0.0);
-st.setTimestamp(16, utc.getCurrentTimeStamp());
-st.setString(17, utime);
-st.setString(18, udate);
-st.setDouble(19, 0.0);
-st.setString(20, sym);
-
+st.setDouble(4, 0.0);
+st.setString(5, "N");
+st.setDouble(6, value);
+st.setDouble(7, 0.0);
+st.setTimestamp(8, utc.getCurrentTimeStamp());
+st.setString(9, utime);
+st.setString(10, udate);
+st.setDouble(11, 0.0);
+st.setString(12, sym);
+st.setString(13, session.getId());
+st.setString(14, "PENDING");
+st.executeUpdate();
+st=conn.prepareStatement("update wallets set amount=amount-? where email=?");
+st.setDouble(1, Double.parseDouble(amount));
+st.setString(2, user);
 st.executeUpdate();
 
-
-
+}
+else
+{
+	System.out.println("--------------Session Expired-----"+new Date().toGMTString());
+}
 %>
