@@ -12,17 +12,8 @@ String user=(String)u.getEmail();
 PreparedStatement st=null;
 Connection conn=DbDriver.getConnection();
 ResultSet rs;
-st=conn.prepareStatement("select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as c from eurusd where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as c from eurjpy where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as c from usdjpy where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as c from usdchf where user =? and status=? union all select utime as utime,udate as udate,earned as earned,type as type,amount as amount,asset as asset,value as value,currenttime as c from gbpusd where user =? and status=? order by c desc limit 20");
+st=conn.prepareStatement("select utime ,udate ,earned ,type ,amount ,asset ,value ,userid from trading where user =? order by userid desc limit 20");
 st.setString(1, user);
-st.setString(2, "ACTIVE");
-st.setString(3, user);
-st.setString(4, "ACTIVE");
-st.setString(5, user);
-st.setString(6, "ACTIVE");
-st.setString(7, user);
-st.setString(8, "ACTIVE");
-st.setString(9, user);
-st.setString(10, "ACTIVE");
 rs=st.executeQuery();
 int i=0;
 while(rs.next())
